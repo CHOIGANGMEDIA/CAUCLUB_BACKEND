@@ -61,7 +61,7 @@ public class LoginController {
         club.setType(type);
         /////////////////// 프론트에서 넘겨준 데이터를 바탕으로 club 객체 각 필드에 저장
         loginService.registerNewClub(club);
-        System.out.println("회원가입이 성공적으로 완료되었습니다.");
+        System.out.println("회원가입이 성공적으로 완료되었습니다."); // 테스트를 위한 회원가입 성공 문구 출력
         return true;
     }
 }

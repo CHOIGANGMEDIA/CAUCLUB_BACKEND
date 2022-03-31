@@ -28,7 +28,7 @@ public class MemoryLoginRepository implements LoginRepository{
         ApiFuture<QuerySnapshot> future = firestore.collection("Club").get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         for(QueryDocumentSnapshot document : documents) {
-            if(document.toObject(Club.class).getEmail().equals(id)){
+            if(document.toObject(Club.class).getId().equals(id)){
                 return false;
             }
         }
