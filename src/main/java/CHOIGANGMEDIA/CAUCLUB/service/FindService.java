@@ -1,7 +1,9 @@
 package CHOIGANGMEDIA.CAUCLUB.service;
 
 import CHOIGANGMEDIA.CAUCLUB.repository.FindRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class FindService {
 
     private final FindRepository findRepository;

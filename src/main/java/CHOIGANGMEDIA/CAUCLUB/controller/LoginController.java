@@ -26,9 +26,11 @@ public class LoginController {
     @RequestMapping(value="/club/idDuplicateCheck", method = RequestMethod.POST)
     public boolean idDuplicateCheck(@RequestParam String id) throws Exception{
         if(loginService.idDuplicateCheckService(id)){
+            System.out.println("사용할 수 있는 아이디입니다.");
             return true;
         }
         else{
+            System.out.println("아이디가 중복되었습니다.");
             return false;
         }
     }

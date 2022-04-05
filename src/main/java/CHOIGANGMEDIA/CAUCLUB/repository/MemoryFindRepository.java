@@ -6,9 +6,11 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class MemoryFindRepository implements FindRepository{
 
     private static final String collectionClub = "Club";
