@@ -46,4 +46,29 @@ public class MemoryLoginRepository implements LoginRepository{
                 dbFirestore.collection(collectionClub).document(club.getName()).set(club);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
+
+    /**
+     * 로그인 메소드 (프론트에서 넘겨준 id, password가 동시에 맞아야 토큰 발행)
+     */
+
+    @Override
+    public Boolean loginCheck(String id, String password) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = firestore.collection("Club").get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        for(QueryDocumentSnapshot document : documents) {
+            if(document.toObject(Club.class).getId().equals(id)){
+                if(document.toObject(Club.class).getPassword().equals(password)){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                return false;
+            }
+        }
+        return false;
+    }
 }

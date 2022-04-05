@@ -33,4 +33,13 @@ public class LoginService {
             return false;
         }
     }
+
+    public boolean loginCheckService(String id, String password) throws Exception{
+        if(loginRepository.loginCheck(id,password)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

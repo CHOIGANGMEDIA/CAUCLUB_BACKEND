@@ -66,4 +66,17 @@ public class LoginController {
         System.out.println("회원가입이 성공적으로 완료되었습니다."); // 테스트를 위한 회원가입 성공 문구 출력
         return true;
     }
+
+    @ResponseBody
+    @RequestMapping(value="/club/login", method= RequestMethod.POST)
+    public boolean loginClub(@RequestParam String id, @RequestParam String password) throws Exception{
+        if(loginService.loginCheckService(id,password)){
+            System.out.println("아이디와 비밀번호가 일치합니다.");
+            return true;
+        }
+        else{
+            System.out.println("아이디나 비밀번호가 일치하지 않습니다.");
+            return false;
+        }
+    }
 }
