@@ -38,11 +38,15 @@ public class FindController {
         if(findService.emailCheckService(email)){
             ////////////////// 여기서 해당 이메일로 인증번호 발송하기..!! & 인증번호 세션에 저장하기..
             String validationNumber = authenticationService.generateNumber();   // 6자리 랜덤 인증번호 생성
+            System.out.println(validationNumber);
             HttpSession session = request.getSession();
             session.setAttribute("validation",validationNumber);    // validation 세션에 인증번호 저장
+            javaMainSenderService.javaMailSender(email,validationNumber);
+            System.out.println("해당 이메일로 인증번호를 발송했습니다. 확인부탁드립니다.");
             return true;
         }
         else{
+            System.out.println("해당 이메일이 존재하지 않습니다.");
             return false;
         }
     }

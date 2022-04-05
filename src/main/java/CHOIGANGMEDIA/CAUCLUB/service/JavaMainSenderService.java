@@ -30,7 +30,7 @@ public class JavaMainSenderService{
         body.append("CAUCLUB 어플에 가셔서 인증번호를 올바르게 입력해주시기 바랍니다.</h3></body></html>");
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true, "UTF-8");
-        mimeMessageHelper.setFrom(from,"To Do Mate Administrator");
+        mimeMessageHelper.setFrom(from,"CAUCLUB ADMINISTRATOR");
         mimeMessageHelper.setTo(to);
         mimeMessageHelper.setSubject(subject);
         mimeMessageHelper.setText(body.toString(), true);
