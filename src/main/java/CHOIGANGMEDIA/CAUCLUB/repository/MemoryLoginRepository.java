@@ -44,7 +44,7 @@ public class MemoryLoginRepository implements LoginRepository{
     public String registerMember(Member member) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> collectionsApiFuture=
-                dbFirestore.collection(collectionMember).document(member.getName()).set(member);
+                dbFirestore.collection(collectionMember).document(member.getId()).set(member);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
@@ -62,14 +62,15 @@ public class MemoryLoginRepository implements LoginRepository{
                 if(document.toObject(Member.class).getPassword().equals(password)){
                     return true;
                 }
-                else{
-                    return false;
-                }
-            }
-            else{
-                return false;
             }
         }
         return false;
+    }
+
+    @Override
+    public Boolean accountWithdraw(String id) throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        dbFirestore.collection("Member").document(id).delete();
+        return true;
     }
 }

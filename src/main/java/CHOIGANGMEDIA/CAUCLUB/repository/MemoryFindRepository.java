@@ -3,9 +3,7 @@ package CHOIGANGMEDIA.CAUCLUB.repository;
 import CHOIGANGMEDIA.CAUCLUB.domain.Club;
 import CHOIGANGMEDIA.CAUCLUB.domain.Member;
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Repository;
 
@@ -32,5 +30,13 @@ public class MemoryFindRepository implements FindRepository{
             }
         }
         return false;
+    }
+
+    @Override
+    public Boolean resetPassword(String id, String password) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firestore.collection("Member").document(id);
+        ApiFuture<WriteResult> future = documentReference.update("password",password);
+        return true;
     }
 }

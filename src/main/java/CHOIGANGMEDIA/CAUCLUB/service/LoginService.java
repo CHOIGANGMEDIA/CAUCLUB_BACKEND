@@ -43,4 +43,13 @@ public class LoginService {
             return false;
         }
     }
+
+    public boolean accountWithdrawService(String id) throws Exception{
+        if(loginRepository.accountWithdraw(id)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

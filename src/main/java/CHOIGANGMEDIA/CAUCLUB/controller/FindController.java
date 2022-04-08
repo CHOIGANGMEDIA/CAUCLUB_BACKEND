@@ -1,5 +1,6 @@
 package CHOIGANGMEDIA.CAUCLUB.controller;
 
+import CHOIGANGMEDIA.CAUCLUB.domain.Member;
 import CHOIGANGMEDIA.CAUCLUB.service.AuthenticationService;
 import CHOIGANGMEDIA.CAUCLUB.service.FindService;
 import CHOIGANGMEDIA.CAUCLUB.service.JavaMainSenderService;
@@ -33,7 +34,7 @@ public class FindController {
      */
 
     @ResponseBody
-    @RequestMapping(value="/club/validEmail", method = RequestMethod.POST)
+    @RequestMapping(value="/member/validEmail", method = RequestMethod.POST)
     public boolean idDuplicateCheck(@RequestParam String email, HttpServletRequest request) throws Exception{
         if(findService.emailCheckService(email)){
             ////////////////// 여기서 해당 이메일로 인증번호 발송하기..!! & 인증번호 세션에 저장하기..
@@ -49,5 +50,15 @@ public class FindController {
             System.out.println("해당 이메일이 존재하지 않습니다.");
             return false;
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/member/resetPassword", method = RequestMethod.POST)
+    public boolean resetPassword(@RequestParam String password, HttpServletRequest request) throws Exception{
+        HttpSession session = request.getSession();
+        String memberId = (String) session.getAttribute("member");
+        findService.resetPasswordService(memberId, password);
+        System.out.println("성공적으로 비밀번호가 재설정되었습니다!");
+        return true;
     }
 }

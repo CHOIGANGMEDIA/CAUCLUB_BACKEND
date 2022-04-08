@@ -25,6 +25,6 @@ public class Member {
     private String email;
     private String club;
     private String department;
-    private int type;
+    private String type;
 
 }

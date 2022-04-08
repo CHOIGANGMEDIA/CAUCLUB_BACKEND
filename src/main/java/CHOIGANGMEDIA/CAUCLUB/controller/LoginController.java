@@ -4,10 +4,10 @@ import CHOIGANGMEDIA.CAUCLUB.domain.Club;
 import CHOIGANGMEDIA.CAUCLUB.domain.Member;
 import CHOIGANGMEDIA.CAUCLUB.service.LoginService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
@@ -39,7 +39,7 @@ public class LoginController {
     @ResponseBody
     @RequestMapping(value="/member/newMember", method= RequestMethod.POST)
     public boolean joinNewClub(@RequestParam String department, @RequestParam String email, @RequestParam String id,
-                               @RequestParam String name, @RequestParam int type, @RequestParam String club,
+                               @RequestParam String name, @RequestParam String type, @RequestParam String club,
                                @RequestParam String password) throws Exception{
 
         Member member = new Member();
@@ -58,14 +58,35 @@ public class LoginController {
 
     @ResponseBody
     @RequestMapping(value="/member/login", method= RequestMethod.POST)
-    public boolean loginClub(@RequestParam String id, @RequestParam String password) throws Exception{
+    public boolean loginClub(@RequestParam String id, @RequestParam String password, HttpServletRequest request) throws Exception{
         if(loginService.loginCheckService(id,password)){
-            System.out.println("아이디와 비밀번호가 일치합니다.");
+            System.out.println("성공적으로 로그인되었습니다!");
+            HttpSession session = request.getSession();
+            session.setAttribute("member",id);  // 세션에 멤버 id 저장
             return true;
         }
         else{
             System.out.println("아이디나 비밀번호가 일치하지 않습니다.");
             return false;
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(value="member/logout", method = RequestMethod.PUT)
+    public boolean logout(HttpServletRequest request) throws Exception{
+        HttpSession session = request.getSession();
+        session.invalidate();
+        System.out.println("성공적으로 로그아웃 되었습니다.");
+        return true;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="member/withdraw", method = RequestMethod.DELETE)
+    public boolean withdrawAccount(HttpServletRequest request) throws Exception{
+        HttpSession session = request.getSession();
+        String memberId = (String) session.getAttribute("member");
+        loginService.accountWithdrawService(memberId);
+        System.out.println("계정이 성공적으로 삭제되었습니다.");
+        return true;
     }
 }
