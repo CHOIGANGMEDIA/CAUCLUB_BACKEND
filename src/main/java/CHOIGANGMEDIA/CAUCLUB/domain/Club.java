@@ -6,28 +6,23 @@ import lombok.Setter;
 @Getter
 @Setter
 /**
- * department   부서
- * email    이메일
- * id   아이디
- * introduction 동아리 소개글
- * leader   동아리장
- * name 동아리명
- * password 비밀번호
- * picture  동아리 사진
- * score    동아리 점수
- * type 동아리 유형 -> 학술(1) / 예체능(2) / 기타(3)
+ * id : 동아리장 아이디
+ * department : 소속
+ * introduction : 동아리 소개
+ * name : 동아리 이름
+ * picture : 동아리 사진
+ * type : 동아리 유형 (1->학술동아리, 2->예체능동아리, 3->기타동아리)
+ * score : 동아리 활동 점수
  */
+
 public class Club {
 
-    private String department;
-    private String email;
     private String id;
+    private String department;
     private String introduction;
-    private String leader;
     private String name;
-    private String password;
     private String picture;
-    private int score;
     private int type;
+    private int score;
 
 }

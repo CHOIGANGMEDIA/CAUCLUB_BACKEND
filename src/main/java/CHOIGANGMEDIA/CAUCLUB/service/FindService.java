@@ -1,7 +1,9 @@
 package CHOIGANGMEDIA.CAUCLUB.service;
 
 import CHOIGANGMEDIA.CAUCLUB.repository.FindRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class FindService {
 
     private final FindRepository findRepository;
@@ -12,6 +14,15 @@ public class FindService {
 
     public boolean emailCheckService(String email) throws Exception{
         if(findRepository.emailCheck(email)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean resetPasswordService(String id, String password) throws Exception{
+        if(findRepository.resetPassword(id,password)){
             return true;
         }
         else{

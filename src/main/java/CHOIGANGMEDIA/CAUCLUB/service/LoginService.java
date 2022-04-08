@@ -1,6 +1,7 @@
 package CHOIGANGMEDIA.CAUCLUB.service;
 
 import CHOIGANGMEDIA.CAUCLUB.domain.Club;
+import CHOIGANGMEDIA.CAUCLUB.domain.Member;
 import CHOIGANGMEDIA.CAUCLUB.repository.LoginRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,8 @@ public class LoginService {
      * 회원가입 서비스
      */
 
-    public void registerNewClub(Club club) throws Exception{
-        loginRepository.registerClub(club);
+    public void registerNewMember(Member member) throws Exception{
+        loginRepository.registerMember(member);
     }
 
     /**
@@ -27,6 +28,24 @@ public class LoginService {
 
     public boolean idDuplicateCheckService(String id) throws Exception{
         if(loginRepository.idDuplicateCheck(id)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean loginCheckService(String id, String password) throws Exception{
+        if(loginRepository.loginCheck(id,password)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean accountWithdrawService(String id) throws Exception{
+        if(loginRepository.accountWithdraw(id)){
             return true;
         }
         else{

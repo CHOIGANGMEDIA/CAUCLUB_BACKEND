@@ -8,7 +8,6 @@ public class CauclubApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CauclubApplication.class, args);
-		System.out.println("Hello Spring!");
 	}
 
 }
