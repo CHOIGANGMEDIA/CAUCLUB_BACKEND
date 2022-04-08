@@ -1,6 +1,7 @@
 package CHOIGANGMEDIA.CAUCLUB.controller;
 
 import CHOIGANGMEDIA.CAUCLUB.domain.Club;
+import CHOIGANGMEDIA.CAUCLUB.domain.Member;
 import CHOIGANGMEDIA.CAUCLUB.service.LoginService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class LoginController {
      */
 
     @ResponseBody
-    @RequestMapping(value="/club/idDuplicateCheck", method = RequestMethod.POST)
+    @RequestMapping(value="/member/idDuplicateCheck", method = RequestMethod.POST)
     public boolean idDuplicateCheck(@RequestParam String id) throws Exception{
         if(loginService.idDuplicateCheckService(id)){
             System.out.println("사용할 수 있는 아이디입니다.");
@@ -35,40 +36,28 @@ public class LoginController {
         }
     }
 
-    /**
-     * 회원가입 API, 위에서 아이디는 이미 중복체크가 된걸로 가정
-     * <회원가입 시에 프론트->백엔드로 념겨주는 데이터 리스트>
-     * department   부서
-     * email    이메일
-     * id   아이디
-     * leader   동아리장
-     * name 동아리명
-     * password 비밀번호
-     * type 동아리 유형 -> 학술(1) / 예체능(2) / 기타(3)
-     */
-
     @ResponseBody
-    @RequestMapping(value="/club/newClub", method= RequestMethod.POST)
+    @RequestMapping(value="/member/newMember", method= RequestMethod.POST)
     public boolean joinNewClub(@RequestParam String department, @RequestParam String email, @RequestParam String id,
-                               @RequestParam String leader, @RequestParam String name, @RequestParam String password,
-                               @RequestParam int type) throws Exception{
+                               @RequestParam String name, @RequestParam int type, @RequestParam String club,
+                               @RequestParam String password) throws Exception{
 
-        Club club = new Club();
-        club.setDepartment(department);
-        club.setEmail(email);
-        club.setId(id);
-        club.setLeader(leader);
-        club.setName(name);
-        club.setPassword(password);
-        club.setType(type);
+        Member member = new Member();
+        member.setDepartment(department);
+        member.setEmail(email);
+        member.setId(id);
+        member.setName(name);
+        member.setType(type);
+        member.setClub(club);
+        member.setPassword(password);
         /////////////////// 프론트에서 넘겨준 데이터를 바탕으로 club 객체 각 필드에 저장
-        loginService.registerNewClub(club);
+        loginService.registerNewMember(member);
         System.out.println("회원가입이 성공적으로 완료되었습니다."); // 테스트를 위한 회원가입 성공 문구 출력
         return true;
     }
 
     @ResponseBody
-    @RequestMapping(value="/club/login", method= RequestMethod.POST)
+    @RequestMapping(value="/member/login", method= RequestMethod.POST)
     public boolean loginClub(@RequestParam String id, @RequestParam String password) throws Exception{
         if(loginService.loginCheckService(id,password)){
             System.out.println("아이디와 비밀번호가 일치합니다.");
