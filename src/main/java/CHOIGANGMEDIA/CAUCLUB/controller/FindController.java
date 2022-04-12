@@ -39,7 +39,7 @@ public class FindController {
         if(findService.emailCheckService(email)){
             ////////////////// 여기서 해당 이메일로 인증번호 발송하기..!! & 인증번호 세션에 저장하기..
             String validationNumber = authenticationService.generateNumber();   // 6자리 랜덤 인증번호 생성
-            System.out.println(validationNumber);
+//            System.out.println(validationNumber);
             HttpSession session = request.getSession();
             session.setAttribute("validation",validationNumber);    // validation 세션에 인증번호 저장
             javaMainSenderService.javaMailSender(email,validationNumber);
@@ -60,5 +60,19 @@ public class FindController {
         findService.resetPasswordService(memberId, password);
         System.out.println("성공적으로 비밀번호가 재설정되었습니다!");
         return true;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="member/validCertification", method = RequestMethod.POST)
+    public boolean checkCertification(@RequestParam String certification, HttpServletRequest request) throws Exception{
+        HttpSession session = request.getSession();
+        String validationNumber = (String)session.getAttribute("validation");
+//        System.out.println(validationNumber);
+        if(validationNumber.equals(certification)){
+            System.out.println("인증번호가 일치합니다!");
+            return true;
+        }
+        System.out.println("인증번호가 일치하지 않습니다!");
+        return false;
     }
 }
