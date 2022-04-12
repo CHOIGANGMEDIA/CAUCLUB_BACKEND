@@ -3,6 +3,7 @@ package CHOIGANGMEDIA.CAUCLUB.controller;
 import CHOIGANGMEDIA.CAUCLUB.domain.Club;
 import CHOIGANGMEDIA.CAUCLUB.domain.Member;
 import CHOIGANGMEDIA.CAUCLUB.service.LoginService;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,7 +59,19 @@ public class LoginController {
 
     @ResponseBody
     @RequestMapping(value="/member/login", method= RequestMethod.POST)
-    public boolean loginClub(@RequestParam String id, @RequestParam String password, HttpServletRequest request) throws Exception{
+    @JsonProperty("id")
+
+    /**
+     * 데이터 넘어오는 양식 예시
+     * {"id":"dlrlxo999","password":"@@aa0332601"}
+     */
+
+    public boolean loginClub(@RequestBody String memberInformation, HttpServletRequest request) throws Exception{
+        String[] information = memberInformation.split(",");
+        String id = information[0];
+        id = id.substring(7,id.length()-1);
+        String password = information[1];
+        password = password.substring(12,password.length()-2);
         if(loginService.loginCheckService(id,password)){
             System.out.println("성공적으로 로그인되었습니다!");
             HttpSession session = request.getSession();
