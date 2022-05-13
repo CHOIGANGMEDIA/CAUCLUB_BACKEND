@@ -29,4 +29,17 @@ public class FindService {
             return false;
         }
     }
+
+    public String getIdByEmailService(String email) throws Exception{
+        return findRepository.getIdByEmail(email);
+    }
+
+    public boolean resetPasswordByEmailService(String email, String password) throws Exception{
+        if(findRepository.resetPasswordByEmail(email,password)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }
