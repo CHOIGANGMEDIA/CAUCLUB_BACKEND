@@ -3,6 +3,8 @@ package CHOIGANGMEDIA.CAUCLUB.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+
 @Getter
 @Setter
 /**
@@ -17,12 +19,16 @@ import lombok.Setter;
 
 public class Club {
 
-    private String id;
+    private String clubId;
+    private String leaderId;
     private String department;
     private String introduction;
     private String name;
     private String picture;
-    private int type;
+    private String type;
     private int score;
+    private ArrayList<String> keyword;
+    private ArrayList<String> members;
+
 
 }
