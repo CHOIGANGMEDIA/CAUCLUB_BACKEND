@@ -48,8 +48,8 @@ public class LoginController {
         member.setEmail(email);
         member.setId(id);
         member.setName(name);
-        member.setType(type);
-        member.setClub(club);
+//        member.setType(type);
+//        member.setClub(club);
         member.setPassword(password);
         /////////////////// 프론트에서 넘겨준 데이터를 바탕으로 club 객체 각 필드에 저장
         loginService.registerNewMember(member);
