@@ -39,4 +39,26 @@ public class MemoryFindRepository implements FindRepository{
         ApiFuture<WriteResult> future = documentReference.update("password",password);
         return true;
     }
+
+    @Override
+    public String getIdByEmail(String email) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = firestore.collection("Member").get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        for(QueryDocumentSnapshot document : documents) {
+            if (document.toObject(Member.class).getEmail().equals(email)) {
+                return document.toObject(Member.class).getId();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Boolean resetPasswordByEmail(String email, String password) throws Exception {
+        String documentName = getIdByEmail(email);
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firestore.collection("Member").document(documentName);
+        ApiFuture<WriteResult> future = documentReference.update("password",password);
+        return true;
+    }
 }
