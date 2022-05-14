@@ -25,7 +25,7 @@ public class Club {
     private String introduction;
     private String name;
     private String picture;
-    private String type;
+    private int type;
     private int score;
     private ArrayList<String> keyword;
     private ArrayList<String> members;
