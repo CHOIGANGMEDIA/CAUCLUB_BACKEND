@@ -23,18 +23,21 @@ public class RankController {
         return rankService.showTotalRank();
     }
 
+    @ResponseBody
     @RequestMapping(value = "/rank/1", method = RequestMethod.GET)
     public ArrayList<String> viewStudyClub() throws Exception{
-        return null;
+        return rankService.showStudyRank();
     }
 
+    @ResponseBody
     @RequestMapping(value = "/rank/2", method = RequestMethod.GET)
     public ArrayList<String> viewArtClub() throws Exception{
-        return null;
+        return rankService.showArtRank();
     }
 
+    @ResponseBody
     @RequestMapping(value = "/rank/3", method = RequestMethod.GET)
     public ArrayList<String> viewEtcClub() throws Exception{
-        return null;
+        return rankService.showEtcRank();
     }
 }
