@@ -62,14 +62,10 @@ public class MemoryPostRepository implements PostRepository{
     @Override
     public Post getPostObject(int postId) throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = firestore.collection("Post").get();
-        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        for(QueryDocumentSnapshot document : documents) {
-            if (document.toObject(Post.class).getPostId() == postId) {
-                return document.toObject(Post.class);
-            }
-        }
-        return null;
+        DocumentReference docRef = firestore.collection("Post").document(String.valueOf(postId));
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+        return document.toObject(Post.class);
     }
 
     @Override

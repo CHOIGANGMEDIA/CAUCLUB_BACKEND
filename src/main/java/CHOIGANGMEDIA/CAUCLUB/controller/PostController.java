@@ -39,7 +39,6 @@ public class PostController {
         post.setModifiedDate(null);
         post.setContents(contents);
         post.setTitle(title);
-        post.setPostId(2);
         post.setClubId(clubId);
 
         postService.registerNewPost(post);
