@@ -20,7 +20,7 @@ public class PostService {
         postRepository.registerNewPost(post);
     }
 
-    public String getClubIdByMemberId(String memberId) throws Exception{
+    public int getClubIdByMemberId(String memberId) throws Exception{
         return postRepository.getClubId(memberId);
     }
 
@@ -32,7 +32,7 @@ public class PostService {
         return postRepository.getPostObject(postId);
     }
 
-    public String getClubName(String clubId) throws Exception{
+    public String getClubName(int clubId) throws Exception{
         return postRepository.getClubName(clubId);
     }
 

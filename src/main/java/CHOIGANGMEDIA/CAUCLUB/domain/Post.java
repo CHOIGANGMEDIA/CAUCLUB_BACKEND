@@ -1,11 +1,8 @@
 package CHOIGANGMEDIA.CAUCLUB.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-
 
 public class Post {
-    private String clubId;
+    private int clubId;
     public static int staticPostId = 0;
     private int postId;
     private String contents;
@@ -13,11 +10,11 @@ public class Post {
     private String createdDate;
     private String modifiedDate;
 
-    public String getClubId() {
+    public int getClubId() {
         return clubId;
     }
 
-    public void setClubId(String clubId) {
+    public void setClubId(int clubId) {
         this.clubId = clubId;
     }
 

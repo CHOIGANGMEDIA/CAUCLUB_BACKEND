@@ -33,7 +33,7 @@ public class PostController {
         String createDate = now.toString();
         HttpSession session = request.getSession();
         String memberId = (String) session.getAttribute("member");
-        String clubId = postService.getClubIdByMemberId(memberId);
+            int clubId = postService.getClubIdByMemberId(memberId);
 
         post.setCreatedDate(createDate);
         post.setModifiedDate(null);
