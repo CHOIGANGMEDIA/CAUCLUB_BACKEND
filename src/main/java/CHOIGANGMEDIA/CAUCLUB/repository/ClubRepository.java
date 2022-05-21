@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface ClubRepository {
     List<Integer> viewManagingClub(String memberId) throws Exception;
+    List<Integer> viewJoinedClub(String memberId) throws Exception;
 }

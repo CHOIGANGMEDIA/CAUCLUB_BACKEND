@@ -17,4 +17,8 @@ public class ClubService {
     public List<Integer> viewManagingClub(String memberId) throws Exception {
         return clubRepository.viewManagingClub(memberId);
     }
+
+    public List<Integer> viewJoinedClub(String memberId) throws Exception {
+        return clubRepository.viewJoinedClub(memberId);
+    }
 }

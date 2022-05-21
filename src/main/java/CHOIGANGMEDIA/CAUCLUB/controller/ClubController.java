@@ -66,7 +66,7 @@ public class ClubController {
 
     @ResponseBody
     @RequestMapping(value = "/{memberId}/joinedClub", method = RequestMethod.GET)
-    public void api7(){
-
+    public List<Integer> viewJoinedClub(@PathVariable String memberId) throws Exception {
+        return clubService.viewJoinedClub(memberId);
     }
 }

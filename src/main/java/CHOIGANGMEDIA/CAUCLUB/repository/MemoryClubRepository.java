@@ -28,4 +28,19 @@ public class MemoryClubRepository implements ClubRepository{
         }
         return null;
     }
+
+    @Override
+    public List<Integer> viewJoinedClub(String memberId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference docRef = firestore.collection("Member").document(memberId);
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+        Member member = null;
+        if(document.exists()){
+            member = document.toObject(Member.class);
+            assert member != null;
+            return member.getJoinedClub();
+        }
+        return null;
+    }
 }
