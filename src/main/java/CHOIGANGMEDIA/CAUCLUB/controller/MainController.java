@@ -20,15 +20,15 @@ public class MainController {
 
     @ResponseBody
     @RequestMapping(value = "/member/{memberId}/main/joinedClub", method = RequestMethod.GET)
-    public ArrayList<String> showJoinedClub(@PathVariable("memberId") String id) throws Exception {
-        ArrayList<String> joinedClub = mainService.showJoinedClub(id);
+    public ArrayList<Integer> showJoinedClub(@PathVariable("memberId") String id) throws Exception {
+        ArrayList<Integer> joinedClub = mainService.showJoinedClub(id);
         return joinedClub;
     }
 
     @ResponseBody
     @RequestMapping(value = "/member/{memberId}/main/managingClub", method = RequestMethod.GET)
-    public ArrayList<String> showManagingClub(@PathVariable("memberId") String id) throws Exception {
-        ArrayList<String> managingClub = mainService.showManagingClub(id);
+    public ArrayList<Integer> showManagingClub(@PathVariable("memberId") String id) throws Exception {
+        ArrayList<Integer> managingClub = mainService.showManagingClub(id);
         return managingClub;
     }
 }

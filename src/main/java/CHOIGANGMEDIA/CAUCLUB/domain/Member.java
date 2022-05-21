@@ -15,8 +15,8 @@ public class Member {
     private String name;
     private String email;
     private String department;
-    private ArrayList<String> joinedClub;
-    private ArrayList<String> managingClub;
+    private ArrayList<Integer> joinedClub;
+    private ArrayList<Integer> managingClub;
     private ArrayList<String> keyword;
 
 }
