@@ -26,4 +26,8 @@ public class ClubService {
     public String registerNewClub(Club club) throws Exception{
         return clubRepository.registerNewClub(club);
     }
+
+    public Boolean deleteClub(int clubId) throws Exception{
+        return clubRepository.deleteClub(clubId);
+    }
 }

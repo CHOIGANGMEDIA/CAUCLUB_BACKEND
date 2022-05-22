@@ -49,4 +49,11 @@ public class MemoryClubRepository implements ClubRepository{
                 dbFirestore.collection("Club").document(String.valueOf(club.getClubId())).set(club);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
+
+    @Override
+    public Boolean deleteClub(int clubId) throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        dbFirestore.collection("Club").document(String.valueOf(clubId)).delete();
+        return true;
+    }
 }

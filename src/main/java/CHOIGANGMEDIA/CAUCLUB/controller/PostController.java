@@ -49,7 +49,7 @@ public class PostController {
 
     @ResponseBody
     @RequestMapping(value = "/post/{postId}", method = RequestMethod.DELETE)
-    public boolean deletePost(@PathVariable("postId") String postId) throws Exception{
+    public boolean deletePost(@PathVariable("postId") int postId) throws Exception{
         postService.deletePost(postId);
         System.out.println("게시글이 삭제되었습니다.");
         return true;

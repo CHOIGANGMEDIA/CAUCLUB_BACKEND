@@ -40,9 +40,9 @@ public class MemoryPostRepository implements PostRepository{
     }
 
     @Override
-    public Boolean deletePost(String postId) throws Exception {
+    public Boolean deletePost(int postId) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        dbFirestore.collection("Post").document(postId).delete();
+        dbFirestore.collection("Post").document(String.valueOf(postId)).delete();
         return true;
     }
 

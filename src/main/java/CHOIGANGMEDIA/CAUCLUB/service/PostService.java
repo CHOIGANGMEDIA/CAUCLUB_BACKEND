@@ -24,7 +24,7 @@ public class PostService {
         return postRepository.getClubId(memberId);
     }
 
-    public boolean deletePost(String postId) throws Exception {
+    public boolean deletePost(int postId) throws Exception {
         return postRepository.deletePost(postId);
     }
 

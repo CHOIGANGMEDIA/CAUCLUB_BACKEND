@@ -71,8 +71,9 @@ public class ClubController {
 
     @ResponseBody
     @RequestMapping(value = "/{memberId}/{clubId}", method = RequestMethod.DELETE)
-    public void api6(){
-
+    public boolean deleteClub(@PathVariable String memberId, @PathVariable int clubId) throws Exception{
+        System.out.println("동아리가 삭제되었습니다.");
+        return clubService.deleteClub(clubId);
     }
 
     @ResponseBody
