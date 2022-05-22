@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Club {
 
     private int clubId;
-    private int staticClubId;
+    public static int staticClubId = 0;
     private String leaderId;
     private String department;
     private String introduction;

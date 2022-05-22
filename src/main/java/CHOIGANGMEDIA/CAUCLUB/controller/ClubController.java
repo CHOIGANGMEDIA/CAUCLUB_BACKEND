@@ -1,12 +1,11 @@
 package CHOIGANGMEDIA.CAUCLUB.controller;
 
+import CHOIGANGMEDIA.CAUCLUB.domain.Club;
 import CHOIGANGMEDIA.CAUCLUB.service.ClubService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -36,8 +35,20 @@ public class ClubController {
 
     @ResponseBody
     @RequestMapping(value = "/{memberId}/newClub", method = RequestMethod.POST)
-    public void api2(){
-
+    public boolean registerNewClub(@PathVariable String memberId, @RequestParam String name, @RequestParam String department, @RequestParam String introduction,
+                                   @RequestParam ArrayList<String> keyword, @RequestParam String picture, @RequestParam int type) throws Exception {
+        Club club = new Club();
+        club.setDepartment(department);
+        club.setIntroduction(introduction);
+        club.setKeyword(keyword);
+        club.setLeaderId(memberId);
+        club.setName(name);
+        club.setPicture(picture);
+        club.setScore(0);
+        club.setType(type);
+        System.out.println("새로운 동아리가 생성되었습니다.");
+        clubService.registerNewClub(club);
+        return true;
     }
 
     @ResponseBody

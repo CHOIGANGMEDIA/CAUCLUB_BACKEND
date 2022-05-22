@@ -1,11 +1,9 @@
 package CHOIGANGMEDIA.CAUCLUB.repository;
 
+import CHOIGANGMEDIA.CAUCLUB.domain.Club;
 import CHOIGANGMEDIA.CAUCLUB.domain.Member;
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Repository;
 
@@ -42,5 +40,13 @@ public class MemoryClubRepository implements ClubRepository{
             return member.getJoinedClub();
         }
         return null;
+    }
+
+    @Override
+    public String registerNewClub(Club club) throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> collectionsApiFuture=
+                dbFirestore.collection("Club").document(String.valueOf(club.getClubId())).set(club);
+        return collectionsApiFuture.get().getUpdateTime().toString();
     }
 }
