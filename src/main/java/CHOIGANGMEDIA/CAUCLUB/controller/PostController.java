@@ -33,7 +33,7 @@ public class PostController {
         String createDate = now.toString();
         HttpSession session = request.getSession();
         String memberId = (String) session.getAttribute("member");
-        String clubId = postService.getClubIdByMemberId(memberId);
+            int clubId = postService.getClubIdByMemberId(memberId);
 
         post.setCreatedDate(createDate);
         post.setModifiedDate(null);
@@ -49,7 +49,7 @@ public class PostController {
 
     @ResponseBody
     @RequestMapping(value = "/post/{postId}", method = RequestMethod.DELETE)
-    public boolean deletePost(@PathVariable("postId") String postId) throws Exception{
+    public boolean deletePost(@PathVariable("postId") int postId) throws Exception{
         postService.deletePost(postId);
         System.out.println("게시글이 삭제되었습니다.");
         return true;

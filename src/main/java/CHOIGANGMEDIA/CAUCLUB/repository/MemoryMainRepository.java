@@ -16,7 +16,7 @@ public class MemoryMainRepository implements MainRepository{
 
 
     @Override
-    public ArrayList<String> showJoinedClub(String id) throws Exception {
+    public ArrayList<Integer> showJoinedClub(String id) throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = firestore.collection("Member").get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -29,7 +29,7 @@ public class MemoryMainRepository implements MainRepository{
     }
 
     @Override
-    public ArrayList<String> showManagingClub(String id) throws Exception {
+    public ArrayList<Integer> showManagingClub(String id) throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = firestore.collection("Member").get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();

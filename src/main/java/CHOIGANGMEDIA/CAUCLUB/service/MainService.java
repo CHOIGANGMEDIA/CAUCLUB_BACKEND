@@ -15,11 +15,11 @@ public class MainService {
 
     }
 
-    public ArrayList<String> showJoinedClub(String id) throws Exception{
+    public ArrayList<Integer> showJoinedClub(String id) throws Exception{
         return mainRepository.showJoinedClub(id);
     }
 
-    public ArrayList<String> showManagingClub(String id) throws Exception{
+    public ArrayList<Integer> showManagingClub(String id) throws Exception{
         return mainRepository.showManagingClub(id);
     }
 }

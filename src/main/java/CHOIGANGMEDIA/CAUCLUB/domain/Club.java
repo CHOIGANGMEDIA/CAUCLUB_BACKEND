@@ -5,21 +5,12 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 
-@Getter
-@Setter
-/**
- * id : 동아리장 아이디
- * department : 소속
- * introduction : 동아리 소개
- * name : 동아리 이름
- * picture : 동아리 사진
- * type : 동아리 유형 (1->학술동아리, 2->예체능동아리, 3->기타동아리)
- * score : 동아리 활동 점수
- */
+
 
 public class Club {
 
-    private String clubId;
+    private int clubId;
+    public static int staticClubId = 0;
     private String leaderId;
     private String department;
     private String introduction;
@@ -30,5 +21,88 @@ public class Club {
     private ArrayList<String> keyword;
     private ArrayList<String> members;
 
+    public Club(){
+        staticClubId++;
+        clubId = staticClubId;
+    }
 
+    public int getClubId() {
+        return clubId;
+    }
+
+    public void setClubId(int clubId) {
+        this.clubId = clubId;
+    }
+
+    public String getLeaderId() {
+        return leaderId;
+    }
+
+    public void setLeaderId(String leaderId) {
+        this.leaderId = leaderId;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public ArrayList<String> getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(ArrayList<String> keyword) {
+        this.keyword = keyword;
+    }
+
+    public ArrayList<String> getMembers() {
+        return members;
+    }
+
+    public void setMembers(ArrayList<String> members) {
+        this.members = members;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 }

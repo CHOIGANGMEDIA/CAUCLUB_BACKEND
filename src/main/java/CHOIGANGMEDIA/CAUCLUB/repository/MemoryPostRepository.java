@@ -27,7 +27,7 @@ public class MemoryPostRepository implements PostRepository{
     }
 
     @Override
-    public String getClubId(String memberId) throws Exception {
+    public int getClubId(String memberId) throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = firestore.collection("Club").get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -36,23 +36,23 @@ public class MemoryPostRepository implements PostRepository{
                 return document.toObject(Club.class).getClubId();
             }
         }
-        return null;
+        return 0;
     }
 
     @Override
-    public Boolean deletePost(String postId) throws Exception {
+    public Boolean deletePost(int postId) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        dbFirestore.collection("Post").document(postId).delete();
+        dbFirestore.collection("Post").document(String.valueOf(postId)).delete();
         return true;
     }
 
     @Override
-    public String getClubName(String clubId) throws Exception {
+    public String getClubName(int clubId) throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = firestore.collection("Club").get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         for(QueryDocumentSnapshot document : documents) {
-            if (document.toObject(Club.class).getClubId().equals(clubId)){
+            if (document.toObject(Club.class).getClubId() == clubId){
                 return document.toObject(Club.class).getName();
             }
         }
