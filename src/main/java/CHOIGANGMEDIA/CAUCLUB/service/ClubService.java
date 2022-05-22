@@ -4,6 +4,7 @@ import CHOIGANGMEDIA.CAUCLUB.domain.Club;
 import CHOIGANGMEDIA.CAUCLUB.repository.ClubRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,5 +30,17 @@ public class ClubService {
 
     public Boolean deleteClub(int clubId) throws Exception{
         return clubRepository.deleteClub(clubId);
+    }
+
+    public Club getClubObject(int clubId) throws Exception{
+        return clubRepository.getClubObject(clubId);
+    }
+
+    public String getDepartmentByMemberId(String memberId) throws Exception{
+        return clubRepository.getDepartmentByMemberId(memberId);
+    }
+
+    public ArrayList<String> getDepartmentAllCLubList(String memberId, String department) throws Exception{
+        return clubRepository.viewDepartmentClubList(memberId,department);
     }
 }

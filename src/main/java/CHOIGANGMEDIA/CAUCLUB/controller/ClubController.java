@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -53,14 +54,32 @@ public class ClubController {
 
     @ResponseBody
     @RequestMapping(value = "/{memberId}/club", method = RequestMethod.GET)
-    public void api3(){
-
+    public ArrayList<String> viewDepartmentAllClubList(@PathVariable String memberId) throws Exception{
+        String department = clubService.getDepartmentByMemberId(memberId);
+        return clubService.getDepartmentAllCLubList(memberId,department);
     }
 
     @ResponseBody
     @RequestMapping(value = "/{memberId}/{clubId}", method = RequestMethod.GET)
-    public void api4(){
-
+    public HashMap<String, Object> viewDetailClub(@PathVariable String memberId, @PathVariable int clubId) throws Exception{
+        HashMap<String, Object> map = new HashMap<>();
+        Club club = clubService.getClubObject(clubId);
+        map.put("picture", club.getPicture());
+        map.put("name", club.getName());
+        map.put("department", club.getDepartment());
+        map.put("introduction", club.getIntroduction());
+        map.put("leaderId", club.getLeaderId());
+        if(club.getType()==1){
+            map.put("type", "학술동아리");
+        }
+        else if(club.getType()==2){
+            map.put("type", "예체능동아리");
+        }
+        else{
+            map.put("type", "기타동아리");
+        }
+        map.put("keyword", null);
+        return map;
     }
 
     @ResponseBody
