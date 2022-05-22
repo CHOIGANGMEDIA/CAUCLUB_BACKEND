@@ -84,8 +84,11 @@ public class ClubController {
 
     @ResponseBody
     @RequestMapping(value = "/{memberId}/{clubId}", method = RequestMethod.PATCH)
-    public void api5(){
-
+    public boolean modifyClubInformation(@PathVariable String memberId, @PathVariable int clubId, @RequestParam String name,
+                                         @RequestParam String introduction, @RequestParam int type, @RequestParam String leaderId, @RequestParam String picture) throws Exception{
+        clubService.modifyClubInformation(picture, leaderId, name, type, introduction, clubId);
+        System.out.println("동아리 정보가 수정되었습니다.");
+        return true;
     }
 
     @ResponseBody

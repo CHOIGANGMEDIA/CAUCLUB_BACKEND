@@ -43,4 +43,8 @@ public class ClubService {
     public ArrayList<String> getDepartmentAllCLubList(String memberId, String department) throws Exception{
         return clubRepository.viewDepartmentClubList(memberId,department);
     }
+
+    public boolean modifyClubInformation(String picture, String leaderId, String name, int type, String introduction, int clubId) throws Exception{
+        return clubRepository.modifyClubInformation(picture, leaderId, name, type, introduction, clubId);
+    }
 }
