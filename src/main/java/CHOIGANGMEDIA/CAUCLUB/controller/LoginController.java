@@ -4,6 +4,12 @@ import CHOIGANGMEDIA.CAUCLUB.domain.Club;
 import CHOIGANGMEDIA.CAUCLUB.domain.Member;
 import CHOIGANGMEDIA.CAUCLUB.service.LoginService;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.api.client.json.Json;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,19 +45,32 @@ public class LoginController {
 
     @ResponseBody
     @RequestMapping(value="/member/newMember", method= RequestMethod.POST)
-    public boolean joinNewClub(@RequestParam String department, @RequestParam String email, @RequestParam String id,
-                               @RequestParam String name, @RequestParam String type, @RequestParam String club,
-                               @RequestParam String password) throws Exception{
+    public boolean joinNewClub(@RequestBody String memberInformation) throws Exception{
 
         Member member = new Member();
+
+        JsonParser jsonParser = new JsonParser();
+        Object obj = jsonParser.parse(memberInformation);
+        JsonObject jsonObject = (JsonObject) obj;
+
+        String department = jsonObject.get("department").toString();
+        department = department.substring(1,department.length()-1);
+        String id = jsonObject.get("id").toString();
+        id = id.substring(1,id.length()-1);
+        String name = jsonObject.get("name").toString();
+        name = name.substring(1,name.length()-1);
+        String password = jsonObject.get("password").toString();
+        password = password.substring(1,password.length()-1);
+        String email = jsonObject.get("email").toString();
+        email = email.substring(1,email.length()-1);
         member.setDepartment(department);
         member.setEmail(email);
         member.setId(id);
         member.setName(name);
-//        member.setType(type);
-//        member.setClub(club);
         member.setPassword(password);
-        /////////////////// 프론트에서 넘겨준 데이터를 바탕으로 club 객체 각 필드에 저장
+        member.setKeyword(null);
+        member.setJoinedClub(null);
+        member.setManagingClub(null);
         loginService.registerNewMember(member);
         System.out.println("회원가입이 성공적으로 완료되었습니다."); // 테스트를 위한 회원가입 성공 문구 출력
         return true;
