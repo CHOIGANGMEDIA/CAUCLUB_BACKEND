@@ -26,15 +26,13 @@ public class PostController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/post", method = RequestMethod.POST)
-    public boolean registerNewPost(@RequestParam String contents, @RequestParam String title, HttpServletRequest request) throws Exception{
+    @RequestMapping(value = "/{memberId}/{clubId}/newPost", method = RequestMethod.POST)
+    public boolean registerNewPost(@RequestParam String contents, @RequestParam String title,
+                                   @PathVariable String memberId, @PathVariable int clubId) throws Exception{
+
         Post post = new Post();
         Date now = new Date();
         String createDate = now.toString();
-        HttpSession session = request.getSession();
-        String memberId = (String) session.getAttribute("member");
-            int clubId = postService.getClubIdByMemberId(memberId);
-
         post.setCreatedDate(createDate);
         post.setModifiedDate(null);
         post.setContents(contents);

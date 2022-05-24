@@ -32,7 +32,7 @@ public class FindController {
 
     @ResponseBody
     @RequestMapping(value="/member/validIdEmail", method = RequestMethod.POST)
-    public boolean idDuplicateCheck(@RequestParam String email, HttpServletRequest request) throws Exception{
+    public boolean validEmail(@RequestParam String email, HttpServletRequest request) throws Exception{
         if(findService.emailCheckService(email)){
             ////////////////// 여기서 해당 이메일로 인증번호 발송하기..!! & 인증번호 세션에 저장하기..
             String validationNumber = authenticationService.generateNumber();   // 6자리 랜덤 인증번호 생성
