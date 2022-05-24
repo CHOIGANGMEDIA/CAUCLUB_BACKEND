@@ -45,7 +45,7 @@ public class LoginController {
 
     @ResponseBody
     @RequestMapping(value="/member/newMember", method= RequestMethod.POST)
-    public boolean joinNewClub(@RequestBody String memberInformation) throws Exception{
+    public boolean joinNewMember(@RequestBody String memberInformation) throws Exception{
 
         Member member = new Member();
 
