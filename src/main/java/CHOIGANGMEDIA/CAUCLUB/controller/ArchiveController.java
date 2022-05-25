@@ -41,7 +41,7 @@ public class ArchiveController {
     @ResponseBody
     @RequestMapping(value = "/archive/{archiveId}", method = RequestMethod.DELETE)
     public boolean deleteArchive(@PathVariable("archiveId") int archiveId) throws Exception{
-//        archiveService.deletePost(postId);
+        archiveService.deleteArchive(archiveId);
         System.out.println("아카이브가 삭제되었습니다.");
         return true;
     }

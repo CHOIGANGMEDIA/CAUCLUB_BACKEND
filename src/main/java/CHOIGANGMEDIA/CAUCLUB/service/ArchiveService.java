@@ -17,5 +17,8 @@ public class ArchiveService {
         archiveRepository.registerNewArchive(archive);
     }
 
+    public boolean deleteArchive(int archiveId) throws Exception{
+        return archiveRepository.deleteArchive(archiveId);
+    }
 
 }
