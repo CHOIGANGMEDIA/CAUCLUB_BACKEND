@@ -79,5 +79,4 @@ public class PostController {
         System.out.println("게시글이 변경되었습니다.");
         return true;
     }
-
 }

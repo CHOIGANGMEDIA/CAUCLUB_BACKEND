@@ -4,6 +4,8 @@ import CHOIGANGMEDIA.CAUCLUB.domain.Archive;
 import CHOIGANGMEDIA.CAUCLUB.repository.ArchiveRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class ArchiveService {
 
@@ -21,4 +23,7 @@ public class ArchiveService {
         return archiveRepository.deleteArchive(archiveId);
     }
 
+    public boolean modifyArchive(String title, ArrayList<String> pictureUrls, int archiveId, String contents) throws Exception{
+        return archiveRepository.modifyArchive(title,pictureUrls,archiveId,contents);
+    }
 }

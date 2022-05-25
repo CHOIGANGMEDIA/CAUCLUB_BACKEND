@@ -45,4 +45,13 @@ public class ArchiveController {
         System.out.println("아카이브가 삭제되었습니다.");
         return true;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/archive/{archiveId}", method = RequestMethod.PATCH)
+    public boolean modifyArchive(@PathVariable("archiveId") int archiveId, @RequestParam String title,
+                                 @RequestParam ArrayList<String> pictureUrls, @RequestParam String contents) throws Exception {
+        archiveService.modifyArchive(title,pictureUrls,archiveId,contents);
+        System.out.println("아카이브가 변경되었습니다.");
+        return true;
+    }
 }
