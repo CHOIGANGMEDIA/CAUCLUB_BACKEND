@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 @Controller
 public class ArchiveController {
@@ -53,5 +54,24 @@ public class ArchiveController {
         archiveService.modifyArchive(title,pictureUrls,archiveId,contents);
         System.out.println("아카이브가 변경되었습니다.");
         return true;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/archive/{archiveId}", method = RequestMethod.GET)
+    public HashMap<String, Object> viewDetailArchive(@PathVariable("archiveId") int archiveId) throws Exception{
+        HashMap<String, Object> map = new HashMap<>();
+        Archive archive = archiveService.getArchiveObject(archiveId);
+        String clubName = archiveService.getClubName(archive.getClubId());
+        map.put("title", archive.getTitle());
+        map.put("pictures", archive.getPictureUrls());
+        if(archive.getModifiedDate()==null){
+            map.put("time", archive.getCreatedDate());
+        }
+        else{
+            map.put("time", archive.getModifiedDate());
+        }
+        map.put("like", archive.getLike());
+        map.put("clubName", clubName);
+        return map;
     }
 }
