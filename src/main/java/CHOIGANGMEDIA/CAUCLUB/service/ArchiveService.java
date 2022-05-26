@@ -44,4 +44,8 @@ public class ArchiveService {
     public List<HashMap<String, Object>> viewAllArchive() throws Exception{
         return archiveRepository.viewAllArchive();
     }
+
+    public List<Archive> viewMyClubArchiveList(int clubId) throws Exception{
+        return archiveRepository.viewMyClubArchive(clubId);
+    }
 }

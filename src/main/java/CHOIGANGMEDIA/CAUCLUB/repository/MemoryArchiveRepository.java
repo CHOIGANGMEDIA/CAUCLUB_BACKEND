@@ -108,4 +108,20 @@ public class MemoryArchiveRepository implements ArchiveRepository{
         }
         return archiveList;
     }
+
+    @Override
+    public List<Archive> viewMyClubArchive(int clubId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        Query query = firestore.collection("Archive")
+                .whereEqualTo("clubId", clubId)
+                .orderBy("createdDate", Query.Direction.ASCENDING);
+        QuerySnapshot queryDocumentSnapshots = query.get().get();
+        List<Archive> archiveList = new ArrayList<>();
+        if(queryDocumentSnapshots.size() != 0){
+            for(Archive archive : queryDocumentSnapshots.toObjects(Archive.class)){
+                archiveList.add(archive);
+            }
+        }
+        return archiveList;
+    }
 }

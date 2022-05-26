@@ -92,4 +92,10 @@ public class ArchiveController {
     public List<HashMap<String,Object>> viewAllArchive() throws Exception{
         return archiveService.viewAllArchive();
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/{memberId}/{clubId}/archive", method = RequestMethod.GET)
+    public List<Archive> viewMyClubArchiveList(@PathVariable("clubId") int clubId) throws Exception{
+        return archiveService.viewMyClubArchiveList(clubId);
+    }
 }

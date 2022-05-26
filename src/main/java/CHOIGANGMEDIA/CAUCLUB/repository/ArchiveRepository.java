@@ -14,4 +14,5 @@ public interface ArchiveRepository {
     String getClubName(int clubId) throws Exception;
     Boolean likeArchive(int archiveId, String memberId) throws Exception;
     List<HashMap<String, Object>> viewAllArchive() throws Exception;
+    List<Archive> viewMyClubArchive(int clubId) throws Exception;
 }
