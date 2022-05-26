@@ -8,10 +8,7 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Repository
 public class MemoryArchiveRepository implements ArchiveRepository{
@@ -88,5 +85,27 @@ public class MemoryArchiveRepository implements ArchiveRepository{
             ApiFuture<WriteResult> future2 = docRef.update("like",likeCount);
             return true;
         }
+    }
+
+    @Override
+    public List<HashMap<String, Object>> viewAllArchive() throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        Query query = firestore.collection("Archive")
+                .orderBy("createdDate", Query.Direction.ASCENDING);
+        QuerySnapshot queryDocumentSnapshots = query.get().get();
+        List<HashMap<String,Object>> archiveList = new ArrayList<>();
+        if(queryDocumentSnapshots.size() != 0){
+            for(Archive archive : queryDocumentSnapshots.toObjects(Archive.class)){
+                HashMap<String,Object> hashMap = new HashMap<>();
+                hashMap.put("title", archive.getTitle());
+                hashMap.put("clubName", getClubName(archive.getClubId()));
+                hashMap.put("pictures", archive.getPictureUrls());
+                hashMap.put("contents", archive.getContents());
+                hashMap.put("likeCount", archive.getLike());
+                hashMap.put("time", archive.getCreatedDate());
+                archiveList.add(hashMap);
+            }
+        }
+        return archiveList;
     }
 }

@@ -5,6 +5,8 @@ import CHOIGANGMEDIA.CAUCLUB.repository.ArchiveRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class ArchiveService {
@@ -37,5 +39,9 @@ public class ArchiveService {
 
     public boolean likeArchive(int archiveId, String memberId) throws Exception{
         return archiveRepository.likeArchive(archiveId,memberId);
+    }
+
+    public List<HashMap<String, Object>> viewAllArchive() throws Exception{
+        return archiveRepository.viewAllArchive();
     }
 }

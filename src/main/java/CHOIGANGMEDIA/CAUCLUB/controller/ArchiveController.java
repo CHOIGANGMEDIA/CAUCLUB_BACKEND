@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 public class ArchiveController {
@@ -84,5 +85,11 @@ public class ArchiveController {
         HttpSession session = request.getSession();
         String memberId = (String) session.getAttribute("member");
         return archiveService.likeArchive(archiveId,memberId);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/archive", method = RequestMethod.GET)
+    public List<HashMap<String,Object>> viewAllArchive() throws Exception{
+        return archiveService.viewAllArchive();
     }
 }
