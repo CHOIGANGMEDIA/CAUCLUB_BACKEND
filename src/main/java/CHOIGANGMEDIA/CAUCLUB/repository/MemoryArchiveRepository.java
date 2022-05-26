@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class MemoryArchiveRepository implements ArchiveRepository{
@@ -63,5 +64,29 @@ public class MemoryArchiveRepository implements ArchiveRepository{
             }
         }
         return null;
+    }
+
+    @Override
+    public Boolean likeArchive(int archiveId, String memberId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference docRef = firestore.collection("Archive").document(String.valueOf(archiveId));
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<String> likeMemberList = Objects.requireNonNull(document.toObject(Archive.class)).getLikeMember();
+        int likeCount = Objects.requireNonNull(document.toObject(Archive.class)).getLike();
+        if(likeMemberList.contains(memberId)){
+            likeMemberList.remove(memberId);
+            likeCount = likeCount-1;
+            ApiFuture<WriteResult> future1 = docRef.update("likeMember",likeMemberList);
+            ApiFuture<WriteResult> future2 = docRef.update("like",likeCount);
+            return false;
+        }
+        else{
+            likeMemberList.add(memberId);
+            likeCount = likeCount+1;
+            ApiFuture<WriteResult> future1 = docRef.update("likeMember",likeMemberList);
+            ApiFuture<WriteResult> future2 = docRef.update("like",likeCount);
+            return true;
+        }
     }
 }

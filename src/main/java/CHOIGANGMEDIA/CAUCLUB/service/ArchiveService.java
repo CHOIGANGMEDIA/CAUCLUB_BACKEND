@@ -34,4 +34,8 @@ public class ArchiveService {
     public String getClubName(int clubId) throws Exception{
         return archiveRepository.getClubName(clubId);
     }
+
+    public boolean likeArchive(int archiveId, String memberId) throws Exception{
+        return archiveRepository.likeArchive(archiveId,memberId);
+    }
 }

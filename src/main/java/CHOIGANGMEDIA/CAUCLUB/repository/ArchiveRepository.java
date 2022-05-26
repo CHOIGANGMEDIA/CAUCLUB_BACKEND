@@ -10,4 +10,5 @@ public interface ArchiveRepository {
     Boolean modifyArchive(String title, ArrayList<String> pictureUrls, int archiveId, String contents) throws Exception;
     Archive getArchiveObject(int archiveId) throws Exception;
     String getClubName(int clubId) throws Exception;
+    Boolean likeArchive(int archiveId, String memberId) throws Exception;
 }

@@ -5,6 +5,8 @@ import CHOIGANGMEDIA.CAUCLUB.service.ArchiveService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,6 +36,7 @@ public class ArchiveController {
         archive.setModifiedDate(null);
         archive.setPictureUrls(pictureUrls);
         archive.setLike(0);
+        archive.setLikeMember(null);
         archiveService.registerNewArchive(archive);
         System.out.println("아카이브 생성이 완료되었습니다.");
         return true;
@@ -73,5 +76,13 @@ public class ArchiveController {
         map.put("like", archive.getLike());
         map.put("clubName", clubName);
         return map;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/archive/{archiveId}/like", method = RequestMethod.POST)
+    public boolean likeArchive(@PathVariable("archiveId") int archiveId, HttpServletRequest request) throws Exception{
+        HttpSession session = request.getSession();
+        String memberId = (String) session.getAttribute("member");
+        return archiveService.likeArchive(archiveId,memberId);
     }
 }
