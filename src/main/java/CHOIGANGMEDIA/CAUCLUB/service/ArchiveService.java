@@ -26,4 +26,12 @@ public class ArchiveService {
     public boolean modifyArchive(String title, ArrayList<String> pictureUrls, int archiveId, String contents) throws Exception{
         return archiveRepository.modifyArchive(title,pictureUrls,archiveId,contents);
     }
+
+    public Archive getArchiveObject(int archiveId) throws Exception{
+        return archiveRepository.getArchiveObject(archiveId);
+    }
+
+    public String getClubName(int clubId) throws Exception{
+        return archiveRepository.getClubName(clubId);
+    }
 }

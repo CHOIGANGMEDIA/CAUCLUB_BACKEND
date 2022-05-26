@@ -1,15 +1,16 @@
 package CHOIGANGMEDIA.CAUCLUB.repository;
 
 import CHOIGANGMEDIA.CAUCLUB.domain.Archive;
+import CHOIGANGMEDIA.CAUCLUB.domain.Club;
+import CHOIGANGMEDIA.CAUCLUB.domain.Post;
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public class MemoryArchiveRepository implements ArchiveRepository{
@@ -40,5 +41,27 @@ public class MemoryArchiveRepository implements ArchiveRepository{
         ApiFuture<WriteResult> future2 = documentReference.update("modifiedDate", modifiedDate);
         ApiFuture<WriteResult> future3 = documentReference.update("pictureUrls", pictureUrls);
         return true;
+    }
+
+    @Override
+    public Archive getArchiveObject(int archiveId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference docRef = firestore.collection("Archive").document(String.valueOf(archiveId));
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+        return document.toObject(Archive.class);
+    }
+
+    @Override
+    public String getClubName(int clubId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = firestore.collection("Club").get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        for(QueryDocumentSnapshot document : documents) {
+            if (document.toObject(Club.class).getClubId() == clubId){
+                return document.toObject(Club.class).getName();
+            }
+        }
+        return null;
     }
 }
