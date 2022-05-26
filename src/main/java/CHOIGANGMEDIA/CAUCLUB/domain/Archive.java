@@ -19,6 +19,16 @@ public class Archive {
     private int like;
     private ArrayList<String> pictureUrls;
 
+    public ArrayList<String> getLikeMember() {
+        return likeMember;
+    }
+
+    public void setLikeMember(ArrayList<String> likeMember) {
+        this.likeMember = likeMember;
+    }
+
+    private ArrayList<String> likeMember;
+
     public Archive(){
         staticArchiveId++;
         archiveId = staticArchiveId;
