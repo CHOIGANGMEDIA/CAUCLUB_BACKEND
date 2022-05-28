@@ -107,6 +107,15 @@ public class ClubController {
     @ResponseBody
     @RequestMapping(value = "/{memberId}/club/clubRecommend", method = RequestMethod.GET)
     public List<Club> recommendClub(@PathVariable("memberId") String memberId) throws Exception{
-        return clubService.showRecommendList(memberId);
+        List<Club> clubList = new ArrayList<>();
+        if (clubService.showRecommendList(memberId).size() < 5){
+            return clubService.showRecommendList(memberId);
+        }
+        else{
+            for(int i=0;i<5;i++){
+                clubList.add(clubService.showRecommendList(memberId).get(i));
+            }
+        }
+        return clubList;
     }
 }
