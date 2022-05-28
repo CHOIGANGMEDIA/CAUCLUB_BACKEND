@@ -1,5 +1,6 @@
 package CHOIGANGMEDIA.CAUCLUB.repository;
 
+import CHOIGANGMEDIA.CAUCLUB.domain.Archive;
 import CHOIGANGMEDIA.CAUCLUB.domain.Club;
 import CHOIGANGMEDIA.CAUCLUB.domain.Member;
 import CHOIGANGMEDIA.CAUCLUB.domain.Post;
@@ -8,8 +9,7 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class MemoryClubRepository implements ClubRepository{
@@ -107,4 +107,55 @@ public class MemoryClubRepository implements ClubRepository{
         return true;
     }
 
+    @Override
+    public List<Club> recommendClubList(String memberId) throws Exception {
+
+        Map<Object,Integer> clubList = new HashMap<>();
+        List<Club> clubs = new ArrayList<>();
+
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference docRef = firestore.collection("Member").document(memberId);
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<String> memberKeyword;
+        memberKeyword = Objects.requireNonNull(document.toObject(Member.class)).getKeyword();
+
+        ApiFuture<QuerySnapshot> future1 = firestore.collection("Club").get();
+        List<QueryDocumentSnapshot> documents = future1.get().getDocuments();
+        for(QueryDocumentSnapshot clubDocument : documents) {
+            ArrayList<String> clubKeyword;
+            clubKeyword = clubDocument.toObject(Club.class).getKeyword();
+            int commonCount = 0;
+            for(int i=0;i<clubKeyword.size();i++){
+                for(int j=0;j<memberKeyword.size();j++){
+                    if(memberKeyword.get(j).equals(clubKeyword.get(i))){
+                        commonCount+=1;
+                    }
+                }
+            }
+            clubList.put(clubDocument.toObject(Club.class),commonCount);
+        }
+        List<Map.Entry<Object,Integer>> entryList = new LinkedList<>(clubList.entrySet());
+        entryList.sort(new Comparator<Map.Entry<Object, Integer>>() {
+            @Override
+            public int compare(Map.Entry<Object, Integer> o1, Map.Entry<Object, Integer> o2) {
+                return o2.getValue() - o1.getValue();
+            }
+        });
+        for(Map.Entry<Object,Integer> entry : entryList){
+            clubs.add((Club) entry.getKey());
+        }
+        return clubs;
+    }
+
+//    public ArrayList<ArrayList<String>> getClubKeyword() throws Exception{
+//        ArrayList<ArrayList<String>> clubKeyword = new ArrayList<>();
+//        Firestore firestore = FirestoreClient.getFirestore();
+//        ApiFuture<QuerySnapshot> future = firestore.collection("Club").get();
+//        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+//        for(QueryDocumentSnapshot document : documents) {
+//            clubKeyword.add(document.toObject(Club.class).getKeyword());
+//        }
+//        return clubKeyword;
+//    }
 }

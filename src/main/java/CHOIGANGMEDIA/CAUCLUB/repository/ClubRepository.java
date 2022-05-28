@@ -14,4 +14,5 @@ public interface ClubRepository {
     String getDepartmentByMemberId(String memberId) throws Exception;
     ArrayList<String> viewDepartmentClubList(String memberId, String department) throws Exception;
     Boolean modifyClubInformation(String picture, String leaderId, String name, int type, String introduction, int clubId) throws Exception;
+    List<Club> recommendClubList(String memberId) throws Exception;
 }
