@@ -103,4 +103,10 @@ public class ClubController {
     public List<Integer> viewJoinedClub(@PathVariable String memberId) throws Exception {
         return clubService.viewJoinedClub(memberId);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/{memberId}/club/clubRecommend", method = RequestMethod.GET)
+    public List<Club> recommendClub(@PathVariable("memberId") String memberId) throws Exception{
+        return clubService.showRecommendList(memberId);
+    }
 }
