@@ -91,6 +91,7 @@ public class MemoryPostRepository implements PostRepository{
         if(queryDocumentSnapshots.size() != 0){
             for(Post post : queryDocumentSnapshots.toObjects(Post.class)){
                 HashMap<String,Object> hashMap = new HashMap<>();
+                hashMap.put("postId", post.getPostId());
                 hashMap.put("title", post.getTitle());
                 hashMap.put("clubName", getClubName(post.getClubId()));
                 hashMap.put("contents", post.getContents());
