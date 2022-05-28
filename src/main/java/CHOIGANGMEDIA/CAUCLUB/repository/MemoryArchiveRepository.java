@@ -8,9 +8,7 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class MemoryArchiveRepository implements ArchiveRepository{
@@ -63,5 +61,67 @@ public class MemoryArchiveRepository implements ArchiveRepository{
             }
         }
         return null;
+    }
+
+    @Override
+    public Boolean likeArchive(int archiveId, String memberId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference docRef = firestore.collection("Archive").document(String.valueOf(archiveId));
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<String> likeMemberList = Objects.requireNonNull(document.toObject(Archive.class)).getLikeMember();
+        int likeCount = Objects.requireNonNull(document.toObject(Archive.class)).getLike();
+        if(likeMemberList.contains(memberId)){
+            likeMemberList.remove(memberId);
+            likeCount = likeCount-1;
+            ApiFuture<WriteResult> future1 = docRef.update("likeMember",likeMemberList);
+            ApiFuture<WriteResult> future2 = docRef.update("like",likeCount);
+            return false;
+        }
+        else{
+            likeMemberList.add(memberId);
+            likeCount = likeCount+1;
+            ApiFuture<WriteResult> future1 = docRef.update("likeMember",likeMemberList);
+            ApiFuture<WriteResult> future2 = docRef.update("like",likeCount);
+            return true;
+        }
+    }
+
+    @Override
+    public List<HashMap<String, Object>> viewAllArchive() throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        Query query = firestore.collection("Archive")
+                .orderBy("createdDate", Query.Direction.ASCENDING);
+        QuerySnapshot queryDocumentSnapshots = query.get().get();
+        List<HashMap<String,Object>> archiveList = new ArrayList<>();
+        if(queryDocumentSnapshots.size() != 0){
+            for(Archive archive : queryDocumentSnapshots.toObjects(Archive.class)){
+                HashMap<String,Object> hashMap = new HashMap<>();
+                hashMap.put("title", archive.getTitle());
+                hashMap.put("clubName", getClubName(archive.getClubId()));
+                hashMap.put("pictures", archive.getPictureUrls());
+                hashMap.put("contents", archive.getContents());
+                hashMap.put("likeCount", archive.getLike());
+                hashMap.put("time", archive.getCreatedDate());
+                archiveList.add(hashMap);
+            }
+        }
+        return archiveList;
+    }
+
+    @Override
+    public List<Archive> viewMyClubArchive(int clubId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        Query query = firestore.collection("Archive")
+                .whereEqualTo("clubId", clubId)
+                .orderBy("createdDate", Query.Direction.ASCENDING);
+        QuerySnapshot queryDocumentSnapshots = query.get().get();
+        List<Archive> archiveList = new ArrayList<>();
+        if(queryDocumentSnapshots.size() != 0){
+            for(Archive archive : queryDocumentSnapshots.toObjects(Archive.class)){
+                archiveList.add(archive);
+            }
+        }
+        return archiveList;
     }
 }

@@ -1,5 +1,6 @@
 package CHOIGANGMEDIA.CAUCLUB.repository;
 
+import CHOIGANGMEDIA.CAUCLUB.domain.Archive;
 import CHOIGANGMEDIA.CAUCLUB.domain.Club;
 import CHOIGANGMEDIA.CAUCLUB.domain.Member;
 import CHOIGANGMEDIA.CAUCLUB.domain.Post;
@@ -82,16 +83,21 @@ public class MemoryPostRepository implements PostRepository{
 
     @Override
     public List<HashMap<String, Object>> viewAllPost() throws Exception {
-        List postList = new ArrayList();
         Firestore firestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = firestore.collection("Post").get();
-        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        for(QueryDocumentSnapshot document : documents) {
-            HashMap hashMap = new HashMap();
-            hashMap.put("title", document.toObject(Post.class).getTitle());
-            hashMap.put("contents", document.toObject(Post.class).getContents());
-            hashMap.put("clubName",getClubName(document.toObject(Post.class).getClubId()));
-            postList.add(hashMap);
+        Query query = firestore.collection("Post")
+                .orderBy("createdDate", Query.Direction.ASCENDING);
+        QuerySnapshot queryDocumentSnapshots = query.get().get();
+        List<HashMap<String,Object>> postList = new ArrayList<>();
+        if(queryDocumentSnapshots.size() != 0){
+            for(Post post : queryDocumentSnapshots.toObjects(Post.class)){
+                HashMap<String,Object> hashMap = new HashMap<>();
+                hashMap.put("postId", post.getPostId());
+                hashMap.put("title", post.getTitle());
+                hashMap.put("clubName", getClubName(post.getClubId()));
+                hashMap.put("contents", post.getContents());
+                hashMap.put("time", post.getCreatedDate());
+                postList.add(hashMap);
+            }
         }
         return postList;
     }
