@@ -9,12 +9,15 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.api.client.json.Json;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.apache.tomcat.util.http.parser.MediaType;
 import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class LoginController {
@@ -48,11 +51,20 @@ public class LoginController {
     public boolean joinNewMember(@RequestBody String memberInformation) throws Exception{
 
         Member member = new Member();
+        ArrayList<String> keywordList = new ArrayList<>();
 
         JsonParser jsonParser = new JsonParser();
         Object obj = jsonParser.parse(memberInformation);
         JsonObject jsonObject = (JsonObject) obj;
-
+        String keyword = jsonObject.get("keyword").toString();
+        Object obj1 = jsonParser.parse(keyword);
+        JsonObject jsonObject1 = (JsonObject) obj1;
+        String[] info = keyword.split(",");
+        for(int i=0;i<info.length;i++){
+            String tempKeyword = jsonObject1.get(Integer.toString(i)).toString();
+            tempKeyword = tempKeyword.substring(1,tempKeyword.length()-1);
+            keywordList.add(tempKeyword);
+        }
         String department = jsonObject.get("department").toString();
         department = department.substring(1,department.length()-1);
         String id = jsonObject.get("id").toString();
@@ -68,7 +80,7 @@ public class LoginController {
         member.setId(id);
         member.setName(name);
         member.setPassword(password);
-        member.setKeyword(null);
+        member.setKeyword(keywordList);
         member.setJoinedClub(null);
         member.setManagingClub(null);
         loginService.registerNewMember(member);
