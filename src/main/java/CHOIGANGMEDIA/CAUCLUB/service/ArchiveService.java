@@ -52,4 +52,8 @@ public class ArchiveService {
     public int setArchivePk() throws Exception{
         return archiveRepository.setArchivePk();
     }
+
+    public void getScoreByArchive(int clubId) throws Exception{
+        archiveRepository.plusScoreByArchive(clubId);
+    }
 }

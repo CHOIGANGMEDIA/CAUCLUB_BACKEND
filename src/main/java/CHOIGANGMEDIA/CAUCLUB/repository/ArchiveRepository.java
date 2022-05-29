@@ -17,4 +17,5 @@ public interface ArchiveRepository {
     List<Archive> viewMyClubArchive(int clubId) throws Exception;
     int setArchivePk() throws Exception;
     void plusArchivePk() throws Exception;
+    void plusScoreByArchive(int clubId) throws Exception;
 }

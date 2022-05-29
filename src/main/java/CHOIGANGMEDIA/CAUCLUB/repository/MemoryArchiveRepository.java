@@ -150,4 +150,15 @@ public class MemoryArchiveRepository implements ArchiveRepository{
         originalList.add(originalList.size());
         ApiFuture<WriteResult> future1 = documentReference.update("archivePk",originalList);
     }
+
+    @Override
+    public void plusScoreByArchive(int clubId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firestore.collection("Club").document(String.valueOf(clubId));
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        int clubScore = Objects.requireNonNull(document.toObject(Club.class)).getScore();
+        clubScore += 10;
+        ApiFuture<WriteResult> future1 = documentReference.update("score",clubScore);
+    }
 }

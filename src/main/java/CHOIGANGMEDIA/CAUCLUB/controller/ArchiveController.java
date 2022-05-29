@@ -40,6 +40,7 @@ public class ArchiveController {
         archive.setLike(0);
         archive.setLikeMember(null);
         archiveService.registerNewArchive(archive);
+        archiveService.getScoreByArchive(clubId);
         System.out.println("아카이브 생성이 완료되었습니다.");
         return true;
     }
