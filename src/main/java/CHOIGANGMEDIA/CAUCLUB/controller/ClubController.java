@@ -84,7 +84,7 @@ public class ClubController {
         else{
             map.put("type", "기타동아리");
         }
-        map.put("keyword", null);
+        map.put("keyword", club.getKeyword());
         return map;
     }
 
