@@ -55,4 +55,8 @@ public class ClubService {
     public int setClubPk() throws Exception{
         return clubRepository.setClubPk();
     }
+
+    public boolean enterClub(String memberId, int clubId) throws Exception{
+        return clubRepository.enterClub(memberId, clubId);
+    }
 }

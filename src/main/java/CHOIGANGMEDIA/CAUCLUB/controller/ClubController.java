@@ -125,4 +125,11 @@ public class ClubController {
         }
         return clubList;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/{memberId}/{clubId}/enterClub", method = RequestMethod.POST)
+    public boolean enterClub(@PathVariable("memberId") String memberId, @PathVariable("clubId") int clubId) throws Exception{
+        System.out.println("동아리 가입이 완료되었습니다.");
+        return clubService.enterClub(memberId,clubId);
+    }
 }

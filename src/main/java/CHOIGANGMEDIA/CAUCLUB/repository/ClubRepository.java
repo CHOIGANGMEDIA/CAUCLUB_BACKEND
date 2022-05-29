@@ -17,4 +17,5 @@ public interface ClubRepository {
     List<Club> recommendClubList(String memberId) throws Exception;
     int setClubPk() throws Exception;
     void plusClubPk() throws Exception;
+    Boolean enterClub(String memberId, int clubId) throws Exception;
 }

@@ -168,4 +168,17 @@ public class MemoryClubRepository implements ClubRepository{
         originalList.add(originalList.size());
         ApiFuture<WriteResult> future1 = documentReference.update("clubPk",originalList);
     }
+
+    @Override
+    public Boolean enterClub(String memberId, int clubId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firestore.collection("Club").document(String.valueOf(clubId));
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<String> originalMemberList = new ArrayList<>();
+        originalMemberList = Objects.requireNonNull(document.toObject(Club.class)).getMembers();
+        originalMemberList.add(memberId);
+        ApiFuture<WriteResult> future1 = documentReference.update("members",originalMemberList);
+        return true;
+    }
 }
