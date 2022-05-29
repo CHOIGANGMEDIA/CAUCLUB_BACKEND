@@ -15,4 +15,8 @@ public interface ClubRepository {
     ArrayList<Integer> viewDepartmentClubList(String memberId, String department) throws Exception;
     Boolean modifyClubInformation(String picture, String leaderId, String name, int type, String introduction, int clubId) throws Exception;
     List<Club> recommendClubList(String memberId) throws Exception;
+    int setClubPk() throws Exception;
+    void plusClubPk() throws Exception;
+    Boolean enterClub(String memberId, int clubId) throws Exception;
+    Boolean resignClub(String memberId, int clubId) throws Exception;
 }

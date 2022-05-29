@@ -45,6 +45,7 @@ public class ClubController {
     public boolean registerNewClub(@PathVariable String memberId, @RequestParam String name, @RequestParam String department, @RequestParam String introduction,
                                    @RequestParam ArrayList<String> keyword, @RequestParam String picture, @RequestParam int type) throws Exception {
         Club club = new Club();
+        club.setClubId(clubService.setClubPk());
         club.setDepartment(department);
         club.setIntroduction(introduction);
         club.setKeyword(keyword);
@@ -123,5 +124,19 @@ public class ClubController {
             }
         }
         return clubList;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/{memberId}/{clubId}/enterClub", method = RequestMethod.POST)
+    public boolean enterClub(@PathVariable("memberId") String memberId, @PathVariable("clubId") int clubId) throws Exception{
+        System.out.println("동아리 가입이 완료되었습니다.");
+        return clubService.enterClub(memberId,clubId);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/{memberId}/{clubId}/resignClub", method = RequestMethod.POST)
+    public boolean resignClub(@PathVariable("memberId") String memberId, @PathVariable("clubId") int clubId) throws Exception{
+        System.out.println("동아리 탈퇴가 완료되었습니다.");
+        return clubService.resignClub(memberId, clubId);
     }
 }

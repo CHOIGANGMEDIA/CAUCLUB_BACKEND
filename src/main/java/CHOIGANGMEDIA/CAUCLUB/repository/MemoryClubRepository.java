@@ -1,9 +1,6 @@
 package CHOIGANGMEDIA.CAUCLUB.repository;
 
-import CHOIGANGMEDIA.CAUCLUB.domain.Archive;
-import CHOIGANGMEDIA.CAUCLUB.domain.Club;
-import CHOIGANGMEDIA.CAUCLUB.domain.Member;
-import CHOIGANGMEDIA.CAUCLUB.domain.Post;
+import CHOIGANGMEDIA.CAUCLUB.domain.*;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
@@ -42,14 +39,6 @@ public class MemoryClubRepository implements ClubRepository{
             return member.getJoinedClub();
         }
         return null;
-    }
-
-    @Override
-    public String registerNewClub(Club club) throws Exception {
-        Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture=
-                dbFirestore.collection("Club").document(String.valueOf(club.getClubId())).set(club);
-        return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
     @Override
@@ -148,14 +137,77 @@ public class MemoryClubRepository implements ClubRepository{
         return clubs;
     }
 
-//    public ArrayList<ArrayList<String>> getClubKeyword() throws Exception{
-//        ArrayList<ArrayList<String>> clubKeyword = new ArrayList<>();
-//        Firestore firestore = FirestoreClient.getFirestore();
-//        ApiFuture<QuerySnapshot> future = firestore.collection("Club").get();
-//        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-//        for(QueryDocumentSnapshot document : documents) {
-//            clubKeyword.add(document.toObject(Club.class).getKeyword());
-//        }
-//        return clubKeyword;
-//    }
+    @Override
+    public String registerNewClub(Club club) throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> collectionsApiFuture=
+                dbFirestore.collection("Club").document(String.valueOf(club.getClubId())).set(club);
+        plusClubPk();
+        return collectionsApiFuture.get().getUpdateTime().toString();
+    }
+
+    @Override
+    public int setClubPk() throws Exception{
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference docRef = firestore.collection("CollectionPrimaryKey").document("club");
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<Integer> list = new ArrayList<>();
+        list = Objects.requireNonNull(document.toObject(CollectionPrimaryKey.class)).getClubPk();
+        return list.size();
+    }
+
+    @Override
+    public void plusClubPk() throws Exception{
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firestore.collection("CollectionPrimaryKey").document("club");
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<Integer> originalList = new ArrayList<>();
+        originalList = Objects.requireNonNull(document.toObject(CollectionPrimaryKey.class)).getClubPk();
+        originalList.add(originalList.size());
+        ApiFuture<WriteResult> future1 = documentReference.update("clubPk",originalList);
+    }
+
+    @Override
+    public Boolean enterClub(String memberId, int clubId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firestore.collection("Club").document(String.valueOf(clubId));
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<String> originalMemberList = new ArrayList<>();
+        originalMemberList = Objects.requireNonNull(document.toObject(Club.class)).getMembers();
+        originalMemberList.add(memberId);
+        ApiFuture<WriteResult> future1 = documentReference.update("members",originalMemberList);
+        DocumentReference documentReference1 = firestore.collection("Member").document(memberId);
+        ApiFuture<DocumentSnapshot> future2 = documentReference1.get();
+        DocumentSnapshot documentSnapshot = future2.get();
+        DocumentSnapshot document1 = future2.get();
+        ArrayList<Integer> originalJoiningClubList = new ArrayList<>();
+        originalJoiningClubList = Objects.requireNonNull(document1.toObject(Member.class)).getJoinedClub();
+        originalJoiningClubList.add(clubId);
+        ApiFuture<WriteResult> future3 = documentReference1.update("joinedClub",originalJoiningClubList);
+        return true;
+    }
+
+    @Override
+    public Boolean resignClub(String memberId, int clubId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firestore.collection("Club").document(String.valueOf(clubId));
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<String> originalMemberList = new ArrayList<>();
+        originalMemberList = Objects.requireNonNull(document.toObject(Club.class)).getMembers();
+        originalMemberList.remove(memberId);
+        ApiFuture<WriteResult> future1 = documentReference.update("members",originalMemberList);
+        DocumentReference documentReference1 = firestore.collection("Member").document(memberId);
+        ApiFuture<DocumentSnapshot> future2 = documentReference1.get();
+        DocumentSnapshot documentSnapshot = future2.get();
+        DocumentSnapshot document1 = future2.get();
+        ArrayList<Integer> originalJoiningClubList = new ArrayList<>();
+        originalJoiningClubList = Objects.requireNonNull(document1.toObject(Member.class)).getJoinedClub();
+        originalJoiningClubList.remove(clubId);
+        ApiFuture<WriteResult> future3 = documentReference1.update("joinedClub",originalJoiningClubList);
+        return true;
+    }
 }

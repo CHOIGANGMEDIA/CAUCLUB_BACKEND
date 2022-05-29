@@ -1,31 +1,17 @@
 package CHOIGANGMEDIA.CAUCLUB.repository;
 
-import CHOIGANGMEDIA.CAUCLUB.domain.Archive;
-import CHOIGANGMEDIA.CAUCLUB.domain.Club;
-import CHOIGANGMEDIA.CAUCLUB.domain.Member;
-import CHOIGANGMEDIA.CAUCLUB.domain.Post;
+import CHOIGANGMEDIA.CAUCLUB.domain.*;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class MemoryPostRepository implements PostRepository{
 
     private static final String collectionPost = "Post";
-
-    @Override
-    public String registerNewPost(Post post) throws Exception {
-        Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture=
-                dbFirestore.collection(collectionPost).document(String.valueOf(post.getPostId())).set(post);
-        return collectionsApiFuture.get().getUpdateTime().toString();
-    }
 
     @Override
     public int getClubId(String memberId) throws Exception {
@@ -102,4 +88,35 @@ public class MemoryPostRepository implements PostRepository{
         return postList;
     }
 
+    @Override
+    public String registerNewPost(Post post) throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> collectionsApiFuture=
+                dbFirestore.collection(collectionPost).document(String.valueOf(post.getPostId())).set(post);
+        plusPostPk();
+        return collectionsApiFuture.get().getUpdateTime().toString();
+    }
+
+    @Override
+    public int setPostPk() throws Exception{
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference docRef = firestore.collection("CollectionPrimaryKey").document("post");
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<Integer> list = new ArrayList<>();
+        list = Objects.requireNonNull(document.toObject(CollectionPrimaryKey.class)).getPostPk();
+        return list.size();
+    }
+
+    @Override
+    public void plusPostPk() throws Exception{
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firestore.collection("CollectionPrimaryKey").document("post");
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<Integer> originalList = new ArrayList<>();
+        originalList = Objects.requireNonNull(document.toObject(CollectionPrimaryKey.class)).getPostPk();
+        originalList.add(originalList.size());
+        ApiFuture<WriteResult> future1 = documentReference.update("postPk",originalList);
+    }
 }

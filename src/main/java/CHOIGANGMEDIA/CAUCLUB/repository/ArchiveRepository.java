@@ -15,4 +15,6 @@ public interface ArchiveRepository {
     Boolean likeArchive(int archiveId, String memberId) throws Exception;
     List<HashMap<String, Object>> viewAllArchive() throws Exception;
     List<Archive> viewMyClubArchive(int clubId) throws Exception;
+    int setArchivePk() throws Exception;
+    void plusArchivePk() throws Exception;
 }

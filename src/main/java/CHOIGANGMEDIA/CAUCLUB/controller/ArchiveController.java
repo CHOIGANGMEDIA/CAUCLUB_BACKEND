@@ -30,6 +30,7 @@ public class ArchiveController {
         Date now = new Date();
 
         String createDate = now.toString();
+        archive.setArchiveId(archiveService.setArchivePk());
         archive.setCreatedDate(createDate);
         archive.setContents(contents);
         archive.setClubId(clubId);
