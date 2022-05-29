@@ -2,6 +2,7 @@ package CHOIGANGMEDIA.CAUCLUB.repository;
 
 import CHOIGANGMEDIA.CAUCLUB.domain.Archive;
 import CHOIGANGMEDIA.CAUCLUB.domain.Club;
+import CHOIGANGMEDIA.CAUCLUB.domain.CollectionPrimaryKey;
 import CHOIGANGMEDIA.CAUCLUB.domain.Post;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
@@ -12,14 +13,6 @@ import java.util.*;
 
 @Repository
 public class MemoryArchiveRepository implements ArchiveRepository{
-
-    @Override
-    public String registerNewArchive(Archive archive) throws Exception {
-        Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture=
-                dbFirestore.collection("Archive").document(String.valueOf(archive.getArchiveId())).set(archive);
-        return collectionsApiFuture.get().getUpdateTime().toString();
-    }
 
     @Override
     public Boolean deleteArchive(int archiveId) throws Exception {
@@ -123,5 +116,38 @@ public class MemoryArchiveRepository implements ArchiveRepository{
             }
         }
         return archiveList;
+    }
+
+    @Override
+    public String registerNewArchive(Archive archive) throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> collectionsApiFuture=
+                dbFirestore.collection("Archive").document(String.valueOf(archive.getArchiveId())).set(archive);
+        plusArchivePk();
+        return collectionsApiFuture.get().getUpdateTime().toString();
+    }
+
+
+    @Override
+    public int setArchivePk() throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference docRef = firestore.collection("CollectionPrimaryKey").document("archive");
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<Integer> list = new ArrayList<>();
+        list = Objects.requireNonNull(document.toObject(CollectionPrimaryKey.class)).getArchivePk();
+        return list.size();
+    }
+
+    @Override
+    public void plusArchivePk() throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firestore.collection("CollectionPrimaryKey").document("archive");
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<Integer> originalList = new ArrayList<>();
+        originalList = Objects.requireNonNull(document.toObject(CollectionPrimaryKey.class)).getArchivePk();
+        originalList.add(originalList.size());
+        ApiFuture<WriteResult> future1 = documentReference.update("archivePk",originalList);
     }
 }

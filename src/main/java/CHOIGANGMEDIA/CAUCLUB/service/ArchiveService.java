@@ -48,4 +48,8 @@ public class ArchiveService {
     public List<Archive> viewMyClubArchiveList(int clubId) throws Exception{
         return archiveRepository.viewMyClubArchive(clubId);
     }
+
+    public int setArchivePk() throws Exception{
+        return archiveRepository.setArchivePk();
+    }
 }

@@ -47,5 +47,4 @@ public class PostService {
     public int setPostPk() throws Exception{
         return postRepository.setPostPk();
     }
-
 }
