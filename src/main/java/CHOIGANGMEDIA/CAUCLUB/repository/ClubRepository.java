@@ -12,7 +12,7 @@ public interface ClubRepository {
     Boolean deleteClub(int clubId) throws Exception;
     Club getClubObject(int clubId) throws Exception;
     String getDepartmentByMemberId(String memberId) throws Exception;
-    ArrayList<String> viewDepartmentClubList(String memberId, String department) throws Exception;
+    ArrayList<Integer> viewDepartmentClubList(String memberId, String department) throws Exception;
     Boolean modifyClubInformation(String picture, String leaderId, String name, int type, String introduction, int clubId) throws Exception;
     List<Club> recommendClubList(String memberId) throws Exception;
 }

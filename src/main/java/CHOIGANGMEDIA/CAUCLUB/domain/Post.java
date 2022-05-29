@@ -10,8 +10,21 @@ public class Post {
     private String createdDate;
     private String modifiedDate;
 
+    public Post(){
+        staticPostId++;
+        postId = staticPostId;
+    }
+
     public int getClubId() {
         return clubId;
+    }
+
+    public int getPostId() {
+        return postId;
+    }
+
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 
     public void setClubId(int clubId) {
@@ -50,16 +63,4 @@ public class Post {
         this.modifiedDate = modifiedDate;
     }
 
-    public Post(){
-        staticPostId++;
-        postId = staticPostId;
-    }
-
-    public int getPostId() {
-        return postId;
-    }
-
-    public void setPostId(int postId) {
-        this.postId = postId;
-    }
 }

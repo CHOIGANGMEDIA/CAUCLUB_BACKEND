@@ -82,14 +82,14 @@ public class MemoryClubRepository implements ClubRepository{
     }
 
     @Override
-    public ArrayList<String> viewDepartmentClubList(String memberId, String department) throws Exception {
-        ArrayList<String> clubList = new ArrayList<>();
+    public ArrayList<Integer> viewDepartmentClubList(String memberId, String department) throws Exception {
+        ArrayList<Integer> clubList = new ArrayList<>();
         Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = firestore.collection("Club").get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         for(QueryDocumentSnapshot document : documents) {
             if(document.toObject(Club.class).getDepartment().equals(department)){
-                clubList.add(document.toObject(Club.class).getName());
+                clubList.add(document.toObject(Club.class).getClubId());
             }
         }
         return clubList;

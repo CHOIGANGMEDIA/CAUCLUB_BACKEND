@@ -2,6 +2,12 @@ package CHOIGANGMEDIA.CAUCLUB.controller;
 
 import CHOIGANGMEDIA.CAUCLUB.domain.Club;
 import CHOIGANGMEDIA.CAUCLUB.service.ClubService;
+import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.Firestore;
+import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,7 +60,7 @@ public class ClubController {
 
     @ResponseBody
     @RequestMapping(value = "/{memberId}/club", method = RequestMethod.GET)
-    public ArrayList<String> viewDepartmentAllClubList(@PathVariable String memberId) throws Exception{
+    public ArrayList<Integer> viewDepartmentAllClubList(@PathVariable String memberId) throws Exception{
         String department = clubService.getDepartmentByMemberId(memberId);
         return clubService.getDepartmentAllCLubList(memberId,department);
     }
@@ -78,7 +84,7 @@ public class ClubController {
         else{
             map.put("type", "기타동아리");
         }
-        map.put("keyword", null);
+        map.put("keyword", club.getKeyword());
         return map;
     }
 
