@@ -40,7 +40,7 @@ public class ClubService {
         return clubRepository.getDepartmentByMemberId(memberId);
     }
 
-    public ArrayList<String> getDepartmentAllCLubList(String memberId, String department) throws Exception{
+    public ArrayList<Integer> getDepartmentAllCLubList(String memberId, String department) throws Exception{
         return clubRepository.viewDepartmentClubList(memberId,department);
     }
 
