@@ -4,6 +4,8 @@ import CHOIGANGMEDIA.CAUCLUB.domain.Member;
 import CHOIGANGMEDIA.CAUCLUB.repository.MyPageRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class MyPageService {
     private final MyPageRepository myPageRepository;
@@ -16,8 +18,8 @@ public class MyPageService {
         return myPageRepository.findById(id);
     }
 
-    public boolean modifyMyInformation(String id, String name, String email) throws Exception{
-        myPageRepository.modifyMyInformation(id,name,email);
+    public boolean modifyMyInformation(String id, String name, String email, ArrayList<String> keyword) throws Exception{
+        myPageRepository.modifyMyInformation(id,name,email,keyword);
         return true;
     }
 }

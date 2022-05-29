@@ -6,6 +6,7 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -25,11 +26,12 @@ public class MemoryMyPageRepository implements MyPageRepository{
     }
 
     @Override
-    public boolean modifyMyInformation(String id, String name, String email) throws Exception {
+    public Boolean modifyMyInformation(String id, String name, String email, ArrayList<String> keyword) throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = firestore.collection("Member").document(id);
         ApiFuture<WriteResult> future = documentReference.update("name",name);
         ApiFuture<WriteResult> future1 = documentReference.update("email",email);
+        ApiFuture<WriteResult> future2 = documentReference.update("keyword",keyword);
         return true;
     }
 
