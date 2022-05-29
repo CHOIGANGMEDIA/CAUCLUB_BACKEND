@@ -85,7 +85,7 @@ public class MemoryClubRepository implements ClubRepository{
     }
 
     @Override
-    public Boolean modifyClubInformation(String picture, String leaderId, String name, int type, String introduction, int clubId) throws Exception {
+    public Boolean modifyClubInformation(String picture, String leaderId, String name, int type, String introduction, int clubId, ArrayList<String> keyword) throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = firestore.collection("Club").document(String.valueOf(clubId));
         ApiFuture<WriteResult> future = documentReference.update("picture",picture);
@@ -93,6 +93,7 @@ public class MemoryClubRepository implements ClubRepository{
         ApiFuture<WriteResult> future2 = documentReference.update("name", name);
         ApiFuture<WriteResult> future3 = documentReference.update("type", type);
         ApiFuture<WriteResult> future4 = documentReference.update("introduction", introduction);
+        ApiFuture<WriteResult> future5 = documentReference.update("keyword", keyword);
         return true;
     }
 
