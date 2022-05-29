@@ -13,5 +13,6 @@ public interface PostRepository {
     Post getPostObject(int postId) throws Exception;
     Boolean modifyPost(String title, String contents, int postId) throws Exception;
     List<HashMap<String,Object>> viewAllPost() throws Exception;
-
+    int setPostPk() throws Exception;
+    void plusPostPk() throws Exception;
 }

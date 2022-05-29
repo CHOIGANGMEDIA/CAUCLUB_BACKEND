@@ -44,4 +44,8 @@ public class PostService {
         return postRepository.viewAllPost();
     }
 
+    public int setPostPk() throws Exception{
+        return postRepository.setPostPk();
+    }
+
 }

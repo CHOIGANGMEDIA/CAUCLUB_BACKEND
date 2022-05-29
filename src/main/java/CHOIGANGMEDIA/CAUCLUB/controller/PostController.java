@@ -33,6 +33,7 @@ public class PostController {
         Post post = new Post();
         Date now = new Date();
         String createDate = now.toString();
+        post.setPostId(postService.setPostPk());
         post.setCreatedDate(createDate);
         post.setModifiedDate(null);
         post.setContents(contents);
