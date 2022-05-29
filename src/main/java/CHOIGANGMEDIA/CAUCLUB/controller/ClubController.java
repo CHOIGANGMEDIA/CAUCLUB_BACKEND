@@ -45,6 +45,7 @@ public class ClubController {
     public boolean registerNewClub(@PathVariable String memberId, @RequestParam String name, @RequestParam String department, @RequestParam String introduction,
                                    @RequestParam ArrayList<String> keyword, @RequestParam String picture, @RequestParam int type) throws Exception {
         Club club = new Club();
+        club.setClubId(clubService.setClubPk());
         club.setDepartment(department);
         club.setIntroduction(introduction);
         club.setKeyword(keyword);

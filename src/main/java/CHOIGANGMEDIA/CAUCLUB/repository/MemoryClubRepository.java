@@ -1,9 +1,6 @@
 package CHOIGANGMEDIA.CAUCLUB.repository;
 
-import CHOIGANGMEDIA.CAUCLUB.domain.Archive;
-import CHOIGANGMEDIA.CAUCLUB.domain.Club;
-import CHOIGANGMEDIA.CAUCLUB.domain.Member;
-import CHOIGANGMEDIA.CAUCLUB.domain.Post;
+import CHOIGANGMEDIA.CAUCLUB.domain.*;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
@@ -42,14 +39,6 @@ public class MemoryClubRepository implements ClubRepository{
             return member.getJoinedClub();
         }
         return null;
-    }
-
-    @Override
-    public String registerNewClub(Club club) throws Exception {
-        Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture=
-                dbFirestore.collection("Club").document(String.valueOf(club.getClubId())).set(club);
-        return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
     @Override
@@ -148,14 +137,35 @@ public class MemoryClubRepository implements ClubRepository{
         return clubs;
     }
 
-//    public ArrayList<ArrayList<String>> getClubKeyword() throws Exception{
-//        ArrayList<ArrayList<String>> clubKeyword = new ArrayList<>();
-//        Firestore firestore = FirestoreClient.getFirestore();
-//        ApiFuture<QuerySnapshot> future = firestore.collection("Club").get();
-//        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-//        for(QueryDocumentSnapshot document : documents) {
-//            clubKeyword.add(document.toObject(Club.class).getKeyword());
-//        }
-//        return clubKeyword;
-//    }
+    @Override
+    public String registerNewClub(Club club) throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> collectionsApiFuture=
+                dbFirestore.collection("Club").document(String.valueOf(club.getClubId())).set(club);
+        plusClubPk();
+        return collectionsApiFuture.get().getUpdateTime().toString();
+    }
+
+    @Override
+    public int setClubPk() throws Exception{
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference docRef = firestore.collection("CollectionPrimaryKey").document("club");
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<Integer> list = new ArrayList<>();
+        list = Objects.requireNonNull(document.toObject(CollectionPrimaryKey.class)).getClubPk();
+        return list.size();
+    }
+
+    @Override
+    public void plusClubPk() throws Exception{
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firestore.collection("CollectionPrimaryKey").document("club");
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<Integer> originalList = new ArrayList<>();
+        originalList = Objects.requireNonNull(document.toObject(CollectionPrimaryKey.class)).getClubPk();
+        originalList.add(originalList.size());
+        ApiFuture<WriteResult> future1 = documentReference.update("clubPk",originalList);
+    }
 }

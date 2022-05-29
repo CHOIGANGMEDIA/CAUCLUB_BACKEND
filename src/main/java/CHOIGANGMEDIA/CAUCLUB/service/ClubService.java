@@ -51,4 +51,8 @@ public class ClubService {
     public List<Club> showRecommendList(String memberId) throws Exception{
         return(clubRepository.recommendClubList(memberId));
     }
+
+    public int setClubPk() throws Exception{
+        return clubRepository.setClubPk();
+    }
 }
