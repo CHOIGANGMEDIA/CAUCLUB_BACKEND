@@ -15,4 +15,5 @@ public interface PostRepository {
     List<HashMap<String,Object>> viewAllPost() throws Exception;
     int setPostPk() throws Exception;
     void plusPostPk() throws Exception;
+    void plusScoreByPost(int clubId) throws Exception;
 }
