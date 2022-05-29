@@ -19,4 +19,5 @@ public interface ClubRepository {
     void plusClubPk() throws Exception;
     Boolean enterClub(String memberId, int clubId) throws Exception;
     Boolean resignClub(String memberId, int clubId) throws Exception;
+    Boolean changeLeader(String memberId, int clubId, String newLeaderId) throws Exception;
 }

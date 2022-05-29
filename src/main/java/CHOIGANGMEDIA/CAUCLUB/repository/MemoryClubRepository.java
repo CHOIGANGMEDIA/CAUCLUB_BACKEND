@@ -207,8 +207,49 @@ public class MemoryClubRepository implements ClubRepository{
         DocumentSnapshot document1 = future2.get();
         ArrayList<Integer> originalJoiningClubList = new ArrayList<>();
         originalJoiningClubList = Objects.requireNonNull(document1.toObject(Member.class)).getJoinedClub();
-        originalJoiningClubList.remove(clubId);
+        originalJoiningClubList.remove(Integer.valueOf(clubId));
         ApiFuture<WriteResult> future3 = documentReference1.update("joinedClub",originalJoiningClubList);
+        return true;
+    }
+
+    @Override
+    public Boolean changeLeader(String memberId, int clubId, String newLeaderId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firestore.collection("Member").document(memberId);
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<Integer> managingClubList = new ArrayList<>();
+        ArrayList<Integer> joinedClubList = new ArrayList<>();
+        managingClubList = Objects.requireNonNull(document.toObject(Member.class)).getManagingClub();
+        joinedClubList = Objects.requireNonNull(document.toObject(Member.class)).getJoinedClub();
+        managingClubList.remove(Integer.valueOf(clubId));
+        joinedClubList.add(clubId);
+        ApiFuture<WriteResult> future1 = documentReference.update("managingClub",managingClubList);
+        ApiFuture<WriteResult> future2 = documentReference.update("joinedClub",joinedClubList);
+
+        DocumentReference documentReference1 = firestore.collection("Member").document(newLeaderId);
+        ApiFuture<DocumentSnapshot> future3 = documentReference1.get();
+        DocumentSnapshot document1 = future3.get();
+        ArrayList<Integer> newManagingClubList = new ArrayList<>();
+        ArrayList<Integer> newJoinedClubList = new ArrayList<>();
+        newManagingClubList = Objects.requireNonNull(document1.toObject(Member.class)).getManagingClub();
+        newJoinedClubList = Objects.requireNonNull(document1.toObject(Member.class)).getJoinedClub();
+        newManagingClubList.add(clubId);
+        newJoinedClubList.remove(Integer.valueOf(clubId));
+        ApiFuture<WriteResult> future4 = documentReference1.update("managingClub",newManagingClubList);
+        ApiFuture<WriteResult> future5 = documentReference1.update("joinedClub",newJoinedClubList);
+
+        DocumentReference documentReference2 = firestore.collection("Club").document(String.valueOf(clubId));
+        ApiFuture<DocumentSnapshot> future6 = documentReference2.get();
+        DocumentSnapshot document2 = future6.get();
+        ArrayList<String> memberList = new ArrayList<>();
+        memberList = Objects.requireNonNull(document2.toObject(Club.class)).getMembers();
+        memberList.add(memberId);
+        memberList.remove(newLeaderId);
+        ApiFuture<WriteResult> future7 = documentReference2.update("members",memberList);
+        ApiFuture<WriteResult> future8 = documentReference2.update("leaderId",newLeaderId);
+
+
         return true;
     }
 }

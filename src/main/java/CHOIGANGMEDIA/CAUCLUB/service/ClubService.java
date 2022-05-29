@@ -63,4 +63,8 @@ public class ClubService {
     public boolean resignClub(String memberId, int clubId) throws Exception{
         return clubRepository.resignClub(memberId, clubId);
     }
+
+    public boolean changeLeader(String memberId, int clubId, String newLeaderId) throws Exception{
+        return clubRepository.changeLeader(memberId, clubId, newLeaderId);
+    }
 }
