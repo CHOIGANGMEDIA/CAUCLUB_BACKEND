@@ -179,6 +179,35 @@ public class MemoryClubRepository implements ClubRepository{
         originalMemberList = Objects.requireNonNull(document.toObject(Club.class)).getMembers();
         originalMemberList.add(memberId);
         ApiFuture<WriteResult> future1 = documentReference.update("members",originalMemberList);
+        DocumentReference documentReference1 = firestore.collection("Member").document(memberId);
+        ApiFuture<DocumentSnapshot> future2 = documentReference1.get();
+        DocumentSnapshot documentSnapshot = future2.get();
+        DocumentSnapshot document1 = future2.get();
+        ArrayList<Integer> originalJoiningClubList = new ArrayList<>();
+        originalJoiningClubList = Objects.requireNonNull(document1.toObject(Member.class)).getJoinedClub();
+        originalJoiningClubList.add(clubId);
+        ApiFuture<WriteResult> future3 = documentReference1.update("joinedClub",originalJoiningClubList);
+        return true;
+    }
+
+    @Override
+    public Boolean resignClub(String memberId, int clubId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firestore.collection("Club").document(String.valueOf(clubId));
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<String> originalMemberList = new ArrayList<>();
+        originalMemberList = Objects.requireNonNull(document.toObject(Club.class)).getMembers();
+        originalMemberList.remove(memberId);
+        ApiFuture<WriteResult> future1 = documentReference.update("members",originalMemberList);
+        DocumentReference documentReference1 = firestore.collection("Member").document(memberId);
+        ApiFuture<DocumentSnapshot> future2 = documentReference1.get();
+        DocumentSnapshot documentSnapshot = future2.get();
+        DocumentSnapshot document1 = future2.get();
+        ArrayList<Integer> originalJoiningClubList = new ArrayList<>();
+        originalJoiningClubList = Objects.requireNonNull(document1.toObject(Member.class)).getJoinedClub();
+        originalJoiningClubList.remove(clubId);
+        ApiFuture<WriteResult> future3 = documentReference1.update("joinedClub",originalJoiningClubList);
         return true;
     }
 }

@@ -132,4 +132,11 @@ public class ClubController {
         System.out.println("동아리 가입이 완료되었습니다.");
         return clubService.enterClub(memberId,clubId);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/{memberId}/{clubId}/resignClub", method = RequestMethod.POST)
+    public boolean resignClub(@PathVariable("memberId") String memberId, @PathVariable("clubId") int clubId) throws Exception{
+        System.out.println("동아리 탈퇴가 완료되었습니다.");
+        return clubService.resignClub(memberId, clubId);
+    }
 }

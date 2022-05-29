@@ -59,4 +59,8 @@ public class ClubService {
     public boolean enterClub(String memberId, int clubId) throws Exception{
         return clubRepository.enterClub(memberId, clubId);
     }
+
+    public boolean resignClub(String memberId, int clubId) throws Exception{
+        return clubRepository.resignClub(memberId, clubId);
+    }
 }
