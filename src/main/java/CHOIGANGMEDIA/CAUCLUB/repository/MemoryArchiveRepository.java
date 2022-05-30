@@ -17,6 +17,16 @@ public class MemoryArchiveRepository implements ArchiveRepository{
     @Override
     public Boolean deleteArchive(int archiveId) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
+        DocumentReference docRef = dbFirestore.collection("Archive").document(String.valueOf(archiveId));
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+        int clubId = Objects.requireNonNull(document.toObject(Archive.class)).getClubId();
+        DocumentReference documentReference = dbFirestore.collection("Club").document(String.valueOf(clubId));
+        ApiFuture<DocumentSnapshot> future1 = documentReference.get();
+        DocumentSnapshot document1 = future1.get();
+        int clubScore = Objects.requireNonNull(document1.toObject(Club.class)).getScore();
+        clubScore -= 15;
+        ApiFuture<WriteResult> future2 = documentReference.update("score",clubScore);
         dbFirestore.collection("Archive").document(String.valueOf(archiveId)).delete();
         return true;
     }
@@ -63,19 +73,29 @@ public class MemoryArchiveRepository implements ArchiveRepository{
         ApiFuture<DocumentSnapshot> future = docRef.get();
         DocumentSnapshot document = future.get();
         ArrayList<String> likeMemberList = Objects.requireNonNull(document.toObject(Archive.class)).getLikeMember();
+        int clubId = Objects.requireNonNull(document.toObject(Archive.class)).getClubId();
+        DocumentReference docRef1 = firestore.collection("Club").document(String.valueOf(clubId));
+        ApiFuture<DocumentSnapshot> apiFuture = docRef1.get();
+        DocumentSnapshot documentSnapshot = apiFuture.get();
+        int clubScore = Objects.requireNonNull(documentSnapshot.toObject(Club.class)).getScore();
+
         int likeCount = Objects.requireNonNull(document.toObject(Archive.class)).getLike();
         if(likeMemberList.contains(memberId)){
             likeMemberList.remove(memberId);
             likeCount = likeCount-1;
+            clubScore -= 1;
             ApiFuture<WriteResult> future1 = docRef.update("likeMember",likeMemberList);
             ApiFuture<WriteResult> future2 = docRef.update("like",likeCount);
+            ApiFuture<WriteResult> future3 = docRef1.update("score",clubScore);
             return false;
         }
         else{
             likeMemberList.add(memberId);
             likeCount = likeCount+1;
+            clubScore += 1;
             ApiFuture<WriteResult> future1 = docRef.update("likeMember",likeMemberList);
             ApiFuture<WriteResult> future2 = docRef.update("like",likeCount);
+            ApiFuture<WriteResult> future3 = docRef1.update("score",clubScore);
             return true;
         }
     }
