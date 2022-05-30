@@ -32,6 +32,7 @@ public class PostController {
 
         Post post = new Post();
         Date now = new Date();
+        ArrayList<String> reportMemberList = new ArrayList<>();
         String createDate = now.toString();
         post.setPostId(postService.setPostPk());
         post.setCreatedDate(createDate);
@@ -39,7 +40,8 @@ public class PostController {
         post.setContents(contents);
         post.setTitle(title);
         post.setClubId(clubId);
-
+        post.setReportCount(0);
+        post.setReportMemberList(reportMemberList);
         postService.registerNewPost(post);
         postService.getScoreByPost(clubId);
         System.out.println("게시글이 등록되었습니다.");

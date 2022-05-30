@@ -56,6 +56,7 @@ public class ClubController {
         club.setScore(0);
         club.setType(type);
         club.setMembers(memberList);
+        club.setReportCount(0);
         System.out.println("새로운 동아리가 생성되었습니다.");
         clubService.registerNewClub(club, memberId);
         return true;
