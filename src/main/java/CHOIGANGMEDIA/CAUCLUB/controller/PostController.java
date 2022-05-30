@@ -39,7 +39,7 @@ public class PostController {
         post.setContents(contents);
         post.setTitle(title);
         post.setClubId(clubId);
-
+        post.setReportCount(0);
         postService.registerNewPost(post);
         postService.getScoreByPost(clubId);
         System.out.println("게시글이 등록되었습니다.");

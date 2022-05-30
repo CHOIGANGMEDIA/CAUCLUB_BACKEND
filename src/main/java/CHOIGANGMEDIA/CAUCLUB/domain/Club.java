@@ -19,5 +19,5 @@ public class Club {
     private int score;
     private ArrayList<String> keyword;
     private ArrayList<String> members;
-
+    private int reportCount;
 }

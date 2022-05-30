@@ -13,4 +13,5 @@ public class Post {
     private String title;
     private String createdDate;
     private String modifiedDate;
+    private int reportCount;
 }
