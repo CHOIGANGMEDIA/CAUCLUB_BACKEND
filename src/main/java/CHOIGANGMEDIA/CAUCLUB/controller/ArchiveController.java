@@ -29,6 +29,7 @@ public class ArchiveController {
         Archive archive = new Archive();
         Date now = new Date();
         ArrayList<String> likeMemberList = new ArrayList<>();
+        ArrayList<String> reportMemberList = new ArrayList<>();
 
         String createDate = now.toString();
         archive.setArchiveId(archiveService.setArchivePk());
@@ -41,6 +42,7 @@ public class ArchiveController {
         archive.setLike(0);
         archive.setLikeMember(likeMemberList);
         archive.setReportCount(0);
+        archive.setReportMemberList(reportMemberList);
         archiveService.registerNewArchive(archive);
         archiveService.getScoreByArchive(clubId);
         System.out.println("아카이브 생성이 완료되었습니다.");

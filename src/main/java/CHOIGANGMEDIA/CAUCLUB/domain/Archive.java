@@ -21,4 +21,5 @@ public class Archive {
     private ArrayList<String> pictureUrls;
     private ArrayList<String> likeMember;
     private int reportCount;
+    private ArrayList<String> reportMemberList;
 }
