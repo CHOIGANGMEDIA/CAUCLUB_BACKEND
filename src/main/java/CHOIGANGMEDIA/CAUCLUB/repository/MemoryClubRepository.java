@@ -139,11 +139,19 @@ public class MemoryClubRepository implements ClubRepository{
     }
 
     @Override
-    public String registerNewClub(Club club) throws Exception {
+    public String registerNewClub(Club club, String memberId) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> collectionsApiFuture=
                 dbFirestore.collection("Club").document(String.valueOf(club.getClubId())).set(club);
         plusClubPk();
+        DocumentReference docRef = dbFirestore.collection("Member").document(memberId);
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<Integer> managingClubList = new ArrayList<>();
+        managingClubList = Objects.requireNonNull(document.toObject(Member.class)).getManagingClub();
+        int tempClubId = setClubPk();
+        managingClubList.add(tempClubId-1);
+        ApiFuture<WriteResult> future1 = docRef.update("managingClub",managingClubList);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 

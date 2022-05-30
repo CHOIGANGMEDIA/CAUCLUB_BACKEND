@@ -45,6 +45,7 @@ public class ClubController {
     public boolean registerNewClub(@PathVariable String memberId, @RequestParam String name, @RequestParam String department, @RequestParam String introduction,
                                    @RequestParam ArrayList<String> keyword, @RequestParam String picture, @RequestParam int type) throws Exception {
         Club club = new Club();
+        ArrayList<String> memberList = new ArrayList<>();
         club.setClubId(clubService.setClubPk());
         club.setDepartment(department);
         club.setIntroduction(introduction);
@@ -54,8 +55,9 @@ public class ClubController {
         club.setPicture(picture);
         club.setScore(0);
         club.setType(type);
+        club.setMembers(memberList);
         System.out.println("새로운 동아리가 생성되었습니다.");
-        clubService.registerNewClub(club);
+        clubService.registerNewClub(club, memberId);
         return true;
     }
 

@@ -24,8 +24,8 @@ public class ClubService {
         return clubRepository.viewJoinedClub(memberId);
     }
 
-    public String registerNewClub(Club club) throws Exception{
-        return clubRepository.registerNewClub(club);
+    public String registerNewClub(Club club, String memberId) throws Exception{
+        return clubRepository.registerNewClub(club, memberId);
     }
 
     public Boolean deleteClub(int clubId) throws Exception{

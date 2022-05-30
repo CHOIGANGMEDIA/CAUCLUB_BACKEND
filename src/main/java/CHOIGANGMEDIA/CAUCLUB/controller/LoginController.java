@@ -52,6 +52,8 @@ public class LoginController {
 
         Member member = new Member();
         ArrayList<String> keywordList = new ArrayList<>();
+        ArrayList<Integer> managingClubList = new ArrayList<>();
+        ArrayList<Integer> joinedClubList = new ArrayList<>();
 
         JsonParser jsonParser = new JsonParser();
         Object obj = jsonParser.parse(memberInformation);
@@ -81,8 +83,8 @@ public class LoginController {
         member.setName(name);
         member.setPassword(password);
         member.setKeyword(keywordList);
-        member.setJoinedClub(null);
-        member.setManagingClub(null);
+        member.setJoinedClub(joinedClubList);
+        member.setManagingClub(managingClubList);
         loginService.registerNewMember(member);
         System.out.println("회원가입이 성공적으로 완료되었습니다."); // 테스트를 위한 회원가입 성공 문구 출력
         return true;

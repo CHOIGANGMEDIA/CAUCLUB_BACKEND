@@ -158,7 +158,7 @@ public class MemoryArchiveRepository implements ArchiveRepository{
         ApiFuture<DocumentSnapshot> future = documentReference.get();
         DocumentSnapshot document = future.get();
         int clubScore = Objects.requireNonNull(document.toObject(Club.class)).getScore();
-        clubScore += 10;
+        clubScore += 15;
         ApiFuture<WriteResult> future1 = documentReference.update("score",clubScore);
     }
 }
