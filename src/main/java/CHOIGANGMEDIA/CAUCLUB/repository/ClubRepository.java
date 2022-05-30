@@ -8,7 +8,7 @@ import java.util.List;
 public interface ClubRepository {
     List<Integer> viewManagingClub(String memberId) throws Exception;
     List<Integer> viewJoinedClub(String memberId) throws Exception;
-    String registerNewClub(Club club) throws Exception;
+    String registerNewClub(Club club, String memberId) throws Exception;
     Boolean deleteClub(int clubId) throws Exception;
     Club getClubObject(int clubId) throws Exception;
     String getDepartmentByMemberId(String memberId) throws Exception;
