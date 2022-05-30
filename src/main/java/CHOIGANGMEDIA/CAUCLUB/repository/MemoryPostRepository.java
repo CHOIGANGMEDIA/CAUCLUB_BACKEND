@@ -119,4 +119,15 @@ public class MemoryPostRepository implements PostRepository{
         originalList.add(originalList.size());
         ApiFuture<WriteResult> future1 = documentReference.update("postPk",originalList);
     }
+
+    @Override
+    public void plusScoreByPost(int clubId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firestore.collection("Club").document(String.valueOf(clubId));
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        int clubScore = Objects.requireNonNull(document.toObject(Club.class)).getScore();
+        clubScore += 10;
+        ApiFuture<WriteResult> future1 = documentReference.update("score",clubScore);
+    }
 }

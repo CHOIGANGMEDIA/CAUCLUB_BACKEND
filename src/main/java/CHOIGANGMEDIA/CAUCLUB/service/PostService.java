@@ -47,4 +47,8 @@ public class PostService {
     public int setPostPk() throws Exception{
         return postRepository.setPostPk();
     }
+
+    public void getScoreByPost(int clubId) throws Exception{
+        postRepository.plusScoreByPost(clubId);
+    }
 }

@@ -92,8 +92,9 @@ public class ClubController {
     @ResponseBody
     @RequestMapping(value = "/{memberId}/{clubId}", method = RequestMethod.PATCH)
     public boolean modifyClubInformation(@PathVariable String memberId, @PathVariable int clubId, @RequestParam String name,
-                                         @RequestParam String introduction, @RequestParam int type, @RequestParam String leaderId, @RequestParam String picture) throws Exception{
-        clubService.modifyClubInformation(picture, leaderId, name, type, introduction, clubId);
+                                         @RequestParam String introduction, @RequestParam int type, @RequestParam String leaderId, @RequestParam String picture,
+                                         @RequestParam ArrayList<String> keyword) throws Exception{
+        clubService.modifyClubInformation(picture, leaderId, name, type, introduction, clubId, keyword);
         System.out.println("동아리 정보가 수정되었습니다.");
         return true;
     }
@@ -138,5 +139,12 @@ public class ClubController {
     public boolean resignClub(@PathVariable("memberId") String memberId, @PathVariable("clubId") int clubId) throws Exception{
         System.out.println("동아리 탈퇴가 완료되었습니다.");
         return clubService.resignClub(memberId, clubId);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/{memberId}/{clubId}/changeLeaderId", method = RequestMethod.PATCH)
+    public boolean changeLeaderId(@PathVariable("memberId") String memberId, @PathVariable("clubId") int clubId, @RequestParam String newLeaderId) throws Exception{
+        System.out.println("동아리 회장이 변경되었습니다.");
+        return clubService.changeLeader(memberId, clubId, newLeaderId);
     }
 }

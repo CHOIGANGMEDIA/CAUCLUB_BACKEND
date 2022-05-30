@@ -44,8 +44,8 @@ public class ClubService {
         return clubRepository.viewDepartmentClubList(memberId,department);
     }
 
-    public boolean modifyClubInformation(String picture, String leaderId, String name, int type, String introduction, int clubId) throws Exception{
-        return clubRepository.modifyClubInformation(picture, leaderId, name, type, introduction, clubId);
+    public boolean modifyClubInformation(String picture, String leaderId, String name, int type, String introduction, int clubId, ArrayList<String> keyword) throws Exception{
+        return clubRepository.modifyClubInformation(picture, leaderId, name, type, introduction, clubId, keyword);
     }
 
     public List<Club> showRecommendList(String memberId) throws Exception{
@@ -62,5 +62,9 @@ public class ClubService {
 
     public boolean resignClub(String memberId, int clubId) throws Exception{
         return clubRepository.resignClub(memberId, clubId);
+    }
+
+    public boolean changeLeader(String memberId, int clubId, String newLeaderId) throws Exception{
+        return clubRepository.changeLeader(memberId, clubId, newLeaderId);
     }
 }
