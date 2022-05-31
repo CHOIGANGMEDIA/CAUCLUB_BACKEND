@@ -22,4 +22,5 @@ public class Archive {
     private ArrayList<String> likeMember;
     private int reportCount;
     private ArrayList<String> reportMemberList;
+    private int isMutual;
 }

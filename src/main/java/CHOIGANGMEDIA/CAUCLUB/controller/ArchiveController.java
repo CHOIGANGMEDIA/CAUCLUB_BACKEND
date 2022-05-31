@@ -24,7 +24,7 @@ public class ArchiveController {
     @ResponseBody
     @RequestMapping(value = "/{memberId}/{clubId}/newArchive", method = RequestMethod.POST)
     public boolean registerNewArchive(@PathVariable int clubId, @RequestParam String contents,
-                                      @RequestParam ArrayList<String> pictureUrls, @RequestParam String title) throws Exception{
+                                      @RequestParam ArrayList<String> pictureUrls, @RequestParam String title, @RequestParam int isMutual) throws Exception{
 
         Archive archive = new Archive();
         Date now = new Date();
@@ -43,8 +43,9 @@ public class ArchiveController {
         archive.setLikeMember(likeMemberList);
         archive.setReportCount(0);
         archive.setReportMemberList(reportMemberList);
+        archive.setIsMutual(isMutual);
         archiveService.registerNewArchive(archive);
-        archiveService.getScoreByArchive(clubId);
+        archiveService.getScoreByArchive(clubId, isMutual);
         System.out.println("아카이브 생성이 완료되었습니다.");
         return true;
     }
