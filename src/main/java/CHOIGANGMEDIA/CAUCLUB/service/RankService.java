@@ -14,19 +14,19 @@ public class RankService {
         this.rankRepository = rankRepository;
     }
 
-    public ArrayList<String> showTotalRank() throws Exception{
+    public ArrayList<Number> showTotalRank() throws Exception{
         return rankRepository.showTotalRank();
     }
 
-    public ArrayList<String> showStudyRank() throws Exception{
+    public ArrayList<Number> showStudyRank() throws Exception{
         return rankRepository.showStudyRank();
     }
 
-    public ArrayList<String> showArtRank() throws Exception{
+    public ArrayList<Number> showArtRank() throws Exception{
         return rankRepository.showArtClub();
     }
 
-    public ArrayList<String> showEtcRank() throws Exception{
+    public ArrayList<Number> showEtcRank() throws Exception{
         return rankRepository.showEtcClub();
     }
 }

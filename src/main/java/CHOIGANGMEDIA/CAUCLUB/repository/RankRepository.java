@@ -3,8 +3,8 @@ package CHOIGANGMEDIA.CAUCLUB.repository;
 import java.util.ArrayList;
 
 public interface RankRepository {
-    ArrayList<String> showTotalRank() throws Exception;
-    ArrayList<String> showStudyRank() throws Exception;
-    ArrayList<String> showArtClub() throws Exception;
-    ArrayList<String> showEtcClub() throws Exception;
+    ArrayList<Number> showTotalRank() throws Exception;
+    ArrayList<Number> showStudyRank() throws Exception;
+    ArrayList<Number> showArtClub() throws Exception;
+    ArrayList<Number> showEtcClub() throws Exception;
 }
