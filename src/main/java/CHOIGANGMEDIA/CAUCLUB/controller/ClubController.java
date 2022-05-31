@@ -79,6 +79,7 @@ public class ClubController {
         map.put("department", club.getDepartment());
         map.put("introduction", club.getIntroduction());
         map.put("leaderId", club.getLeaderId());
+        map.put("score", club.getScore());
         if(club.getType()==1){
             map.put("type", "학술동아리");
         }
