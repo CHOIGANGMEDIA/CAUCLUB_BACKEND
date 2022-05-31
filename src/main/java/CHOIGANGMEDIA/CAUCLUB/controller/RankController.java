@@ -19,25 +19,25 @@ public class RankController {
 
     @ResponseBody
     @RequestMapping(value = "/rank/0", method = RequestMethod.GET)
-    public ArrayList<String> viewTotalRank() throws Exception{
+    public ArrayList<Number> viewTotalRank() throws Exception{
         return rankService.showTotalRank();
     }
 
     @ResponseBody
     @RequestMapping(value = "/rank/1", method = RequestMethod.GET)
-    public ArrayList<String> viewStudyClub() throws Exception{
+    public ArrayList<Number> viewStudyClub() throws Exception{
         return rankService.showStudyRank();
     }
 
     @ResponseBody
     @RequestMapping(value = "/rank/2", method = RequestMethod.GET)
-    public ArrayList<String> viewArtClub() throws Exception{
+    public ArrayList<Number> viewArtClub() throws Exception{
         return rankService.showArtRank();
     }
 
     @ResponseBody
     @RequestMapping(value = "/rank/3", method = RequestMethod.GET)
-    public ArrayList<String> viewEtcClub() throws Exception{
+    public ArrayList<Number> viewEtcClub() throws Exception{
         return rankService.showEtcRank();
     }
 }

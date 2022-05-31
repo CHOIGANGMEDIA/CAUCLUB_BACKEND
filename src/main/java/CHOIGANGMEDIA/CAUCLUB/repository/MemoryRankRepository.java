@@ -12,58 +12,58 @@ import java.util.List;
 @Repository
 public class MemoryRankRepository implements RankRepository{
     @Override
-    public ArrayList<String> showTotalRank() throws Exception {
+    public ArrayList<Number> showTotalRank() throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
         Query clubQuery = firestore.collection("Club")
                 .orderBy("score", Query.Direction.DESCENDING);
         List<Club> totalClubList = clubQuery.get().get().toObjects(Club.class);
-        ArrayList<String> totalClubRank = new ArrayList<>();
+        ArrayList<Number> totalClubRank = new ArrayList<>();
         for(Club club : totalClubList){
-            totalClubRank.add(club.getName());
+            totalClubRank.add(club.getClubId());
         }
         return totalClubRank;
     }
 
     @Override
-    public ArrayList<String> showStudyRank() throws Exception {
+    public ArrayList<Number> showStudyRank() throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
         Query clubQuery = firestore.collection("Club")
                 .orderBy("score", Query.Direction.DESCENDING);
         List<Club> totalClubList = clubQuery.get().get().toObjects(Club.class);
-        ArrayList<String> studyClubRank = new ArrayList<>();
+        ArrayList<Number> studyClubRank = new ArrayList<>();
         for(Club club : totalClubList){
             if(club.getType()==1){
-                studyClubRank.add(club.getName());
+                studyClubRank.add(club.getClubId());
             }
         }
         return studyClubRank;
     }
 
     @Override
-    public ArrayList<String> showArtClub() throws Exception {
+    public ArrayList<Number> showArtClub() throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
         Query clubQuery = firestore.collection("Club")
                 .orderBy("score", Query.Direction.DESCENDING);
         List<Club> totalClubList = clubQuery.get().get().toObjects(Club.class);
-        ArrayList<String> artClubRank = new ArrayList<>();
+        ArrayList<Number> artClubRank = new ArrayList<>();
         for(Club club : totalClubList){
             if(club.getType()==2){
-                artClubRank.add(club.getName());
+                artClubRank.add(club.getClubId());
             }
         }
         return artClubRank;
     }
 
     @Override
-    public ArrayList<String> showEtcClub() throws Exception {
+    public ArrayList<Number> showEtcClub() throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
         Query clubQuery = firestore.collection("Club")
                 .orderBy("score", Query.Direction.DESCENDING);
         List<Club> totalClubList = clubQuery.get().get().toObjects(Club.class);
-        ArrayList<String> etcClubRank = new ArrayList<>();
+        ArrayList<Number> etcClubRank = new ArrayList<>();
         for(Club club : totalClubList){
             if(club.getType()==3){
-                etcClubRank.add(club.getName());
+                etcClubRank.add(club.getClubId());
             }
         }
         return etcClubRank;
