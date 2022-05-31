@@ -21,11 +21,17 @@ public class MemoryArchiveRepository implements ArchiveRepository{
         ApiFuture<DocumentSnapshot> future = docRef.get();
         DocumentSnapshot document = future.get();
         int clubId = Objects.requireNonNull(document.toObject(Archive.class)).getClubId();
+        int isMutual = Objects.requireNonNull(document.toObject(Archive.class)).getIsMutual();
         DocumentReference documentReference = dbFirestore.collection("Club").document(String.valueOf(clubId));
         ApiFuture<DocumentSnapshot> future1 = documentReference.get();
         DocumentSnapshot document1 = future1.get();
         int clubScore = Objects.requireNonNull(document1.toObject(Club.class)).getScore();
-        clubScore -= 15;
+        if(isMutual == 1){
+            clubScore -= 25;
+        }
+        else{
+            clubScore -= 15;
+        }
         ApiFuture<WriteResult> future2 = documentReference.update("score",clubScore);
         dbFirestore.collection("Archive").document(String.valueOf(archiveId)).delete();
         return true;
@@ -172,13 +178,18 @@ public class MemoryArchiveRepository implements ArchiveRepository{
     }
 
     @Override
-    public void plusScoreByArchive(int clubId) throws Exception {
+    public void plusScoreByArchive(int clubId, int isMutual) throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = firestore.collection("Club").document(String.valueOf(clubId));
         ApiFuture<DocumentSnapshot> future = documentReference.get();
         DocumentSnapshot document = future.get();
         int clubScore = Objects.requireNonNull(document.toObject(Club.class)).getScore();
-        clubScore += 15;
+        if(isMutual == 1){  // 교류인 아카이브
+            clubScore += 25;
+        }
+        else{
+            clubScore += 15;
+        }
         ApiFuture<WriteResult> future1 = documentReference.update("score",clubScore);
     }
 }

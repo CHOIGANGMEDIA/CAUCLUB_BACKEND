@@ -53,7 +53,7 @@ public class ArchiveService {
         return archiveRepository.setArchivePk();
     }
 
-    public void getScoreByArchive(int clubId) throws Exception{
-        archiveRepository.plusScoreByArchive(clubId);
+    public void getScoreByArchive(int clubId, int isMutual) throws Exception{
+        archiveRepository.plusScoreByArchive(clubId, isMutual);
     }
 }
