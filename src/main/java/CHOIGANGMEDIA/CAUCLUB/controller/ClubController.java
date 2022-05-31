@@ -70,8 +70,8 @@ public class ClubController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/{memberId}/{clubId}", method = RequestMethod.GET)
-    public HashMap<String, Object> viewDetailClub(@PathVariable String memberId, @PathVariable int clubId) throws Exception{
+    @RequestMapping(value = "/club/{clubId}", method = RequestMethod.GET)
+    public HashMap<String, Object> viewDetailClub(@PathVariable int clubId) throws Exception{
         HashMap<String, Object> map = new HashMap<>();
         Club club = clubService.getClubObject(clubId);
         map.put("picture", club.getPicture());
