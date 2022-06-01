@@ -260,4 +260,31 @@ public class MemoryClubRepository implements ClubRepository{
 
         return true;
     }
+
+    @Override
+    public int getInformationOfEnter(String memberId, int clubId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firestore.collection("Club").document(String.valueOf(clubId));
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        DocumentReference documentReference1 = firestore.collection("Member").document(memberId);
+        ApiFuture<DocumentSnapshot> future1 = documentReference1.get();
+        DocumentSnapshot document1 = future1.get();
+//        System.out.println(Objects.requireNonNull(document.toObject(Club.class)).getDepartment());
+//        System.out.println(Objects.requireNonNull(document1.toObject(Member.class)).getDepartment());
+        if(!Objects.requireNonNull(document.toObject(Club.class)).getDepartment().equals(Objects.requireNonNull(document1.toObject(Member.class)).getDepartment())){
+            return 0;   // 가입 불가
+        }
+        else{
+            if(Objects.requireNonNull(document.toObject(Club.class)).getLeaderId().equals(memberId)){
+                return 3;   // 해당 유저가 회장일 때
+            }
+            else if(Objects.requireNonNull(document.toObject(Club.class)).getMembers().contains(memberId)){
+                return 2;   // 이미 가입한 동아리 일 때
+            }
+            else{
+                return 1; // 가입 가능
+            }
+        }
+    }
 }
