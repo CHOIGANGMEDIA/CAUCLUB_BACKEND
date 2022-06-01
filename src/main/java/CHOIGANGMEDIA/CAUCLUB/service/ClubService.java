@@ -67,4 +67,8 @@ public class ClubService {
     public boolean changeLeader(String memberId, int clubId, String newLeaderId) throws Exception{
         return clubRepository.changeLeader(memberId, clubId, newLeaderId);
     }
+
+    public int getInformationOfEnter(String memberId, int clubId) throws Exception{
+        return clubRepository.getInformationOfEnter(memberId, clubId);
+    }
 }

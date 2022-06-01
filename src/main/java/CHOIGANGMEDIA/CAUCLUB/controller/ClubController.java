@@ -151,4 +151,10 @@ public class ClubController {
         System.out.println("동아리 회장이 변경되었습니다.");
         return clubService.changeLeader(memberId, clubId, newLeaderId);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/{memberId}/{clubId}/enterValid", method = RequestMethod.GET)
+    public int getValidInformationOfEnter(@PathVariable("memberId") String memberId, @PathVariable("clubId") int clubId) throws Exception{
+        return clubService.getInformationOfEnter(memberId, clubId);
+    }
 }
