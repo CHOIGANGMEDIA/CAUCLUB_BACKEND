@@ -122,17 +122,22 @@ public class ClubController {
 
     @ResponseBody
     @RequestMapping(value = "/{memberId}/club/clubRecommend", method = RequestMethod.GET)
-    public List<Club> recommendClub(@PathVariable("memberId") String memberId) throws Exception{
+    public List<Integer> recommendClub(@PathVariable("memberId") String memberId) throws Exception{
         List<Club> clubList = new ArrayList<>();
+        List<Integer> clubIdList = new ArrayList<>();
         if (clubService.showRecommendList(memberId).size() < 5){
-            return clubService.showRecommendList(memberId);
+            for(int i=0;i<clubService.showRecommendList(memberId).size();i++){
+                clubIdList.add(clubService.showRecommendList(memberId).get(i).getClubId());
+            }
+            return clubIdList;
         }
         else{
             for(int i=0;i<5;i++){
                 clubList.add(clubService.showRecommendList(memberId).get(i));
+                clubIdList.add(clubList.get(i).getClubId());
             }
         }
-        return clubList;
+        return clubIdList;
     }
 
     @ResponseBody
