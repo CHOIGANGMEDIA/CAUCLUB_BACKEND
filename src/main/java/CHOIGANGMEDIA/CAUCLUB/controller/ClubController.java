@@ -32,6 +32,7 @@ public class ClubController {
     * 5. 동아리 정보 수정
     * 6. 동아리 삭제
     * 7. 자신이 속한 동아리 다 뜨게
+    * 8. 해당 id가 동아리에서 갖고있는 권한
     * */
 
     @ResponseBody

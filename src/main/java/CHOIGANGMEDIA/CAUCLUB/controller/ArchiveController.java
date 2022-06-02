@@ -2,11 +2,15 @@ package CHOIGANGMEDIA.CAUCLUB.controller;
 
 import CHOIGANGMEDIA.CAUCLUB.domain.Archive;
 import CHOIGANGMEDIA.CAUCLUB.service.ArchiveService;
+import CHOIGANGMEDIA.CAUCLUB.service.FireBaseService;
+import com.google.firebase.auth.FirebaseAuthException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;

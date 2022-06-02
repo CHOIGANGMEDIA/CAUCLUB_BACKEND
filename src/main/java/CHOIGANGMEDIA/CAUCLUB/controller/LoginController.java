@@ -54,18 +54,21 @@ public class LoginController {
         ArrayList<String> keywordList = new ArrayList<>();
         ArrayList<Integer> managingClubList = new ArrayList<>();
         ArrayList<Integer> joinedClubList = new ArrayList<>();
+        String keyword;
 
         JsonParser jsonParser = new JsonParser();
         Object obj = jsonParser.parse(memberInformation);
         JsonObject jsonObject = (JsonObject) obj;
-        String keyword = jsonObject.get("keyword").toString();
-        Object obj1 = jsonParser.parse(keyword);
-        JsonObject jsonObject1 = (JsonObject) obj1;
-        String[] info = keyword.split(",");
-        for(int i=0;i<info.length;i++){
-            String tempKeyword = jsonObject1.get(Integer.toString(i)).toString();
-            tempKeyword = tempKeyword.substring(1,tempKeyword.length()-1);
-            keywordList.add(tempKeyword);
+        if (jsonObject.has("keyword")) {
+            keyword = jsonObject.get("keyword").toString();
+            Object obj1 = jsonParser.parse(keyword);
+            JsonObject jsonObject1 = (JsonObject) obj1;
+            String[] info = keyword.split(",");
+            for(int i=0;i<info.length;i++){
+                String tempKeyword = jsonObject1.get(Integer.toString(i)).toString();
+                tempKeyword = tempKeyword.substring(1,tempKeyword.length()-1);
+                keywordList.add(tempKeyword);
+            }
         }
         String department = jsonObject.get("department").toString();
         department = department.substring(1,department.length()-1);

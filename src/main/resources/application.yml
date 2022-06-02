@@ -13,3 +13,5 @@ spring:
           auth: true
           starttls:
             enable: true
+app:
+  firebase-bucket: cauclub1.appspot.com
