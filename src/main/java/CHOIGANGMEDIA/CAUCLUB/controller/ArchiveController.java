@@ -2,6 +2,7 @@ package CHOIGANGMEDIA.CAUCLUB.controller;
 
 import CHOIGANGMEDIA.CAUCLUB.domain.Archive;
 import CHOIGANGMEDIA.CAUCLUB.service.ArchiveService;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.springframework.stereotype.Controller;
@@ -69,16 +70,12 @@ public class ArchiveController {
         String title = jsonObject.get("title").toString();
         title = title.substring(1,title.length()-1);
         String isMutual = jsonObject.get("isMutual").toString();
-        isMutual = isMutual.substring(1,isMutual.length()-1);
         int tempIsMutual = Integer.parseInt(isMutual);
 
         String pictureUrls = jsonObject.get("pictureUrls").toString();
-        Object obj1 = jsonParser.parse(pictureUrls);
-        JsonObject jsonObject1 = (JsonObject) obj1;
-        String[] info = pictureUrls.split(",");
+        String[] info = pictureUrls.substring(1, pictureUrls.length()-1).split(",");
         for(int i=0;i<info.length;i++){
-            String tempUrls = jsonObject1.get(Integer.toString(i)).toString();
-            tempUrls = tempUrls.substring(1,tempUrls.length()-1);
+            String tempUrls = info[i].substring(1,info[i].length()-1);
             pictureUrlList.add(tempUrls);
         }
         archive.setArchiveId(archiveService.setArchivePk());
@@ -146,6 +143,7 @@ public class ArchiveController {
         Archive archive = archiveService.getArchiveObject(archiveId);
         String clubName = archiveService.getClubName(archive.getClubId());
         map.put("title", archive.getTitle());
+        map.put("contents", archive.getContents());
         map.put("pictures", archive.getPictureUrls());
         if(archive.getModifiedDate()==null){
             map.put("time", archive.getCreatedDate());
@@ -155,6 +153,7 @@ public class ArchiveController {
         }
         map.put("like", archive.getLike());
         map.put("clubName", clubName);
+        map.put("clubId", archive.getClubId());
         return map;
     }
 

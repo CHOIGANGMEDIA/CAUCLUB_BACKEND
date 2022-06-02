@@ -117,12 +117,8 @@ public class MemoryArchiveRepository implements ArchiveRepository{
         if(queryDocumentSnapshots.size() != 0){
             for(Archive archive : queryDocumentSnapshots.toObjects(Archive.class)){
                 HashMap<String,Object> hashMap = new HashMap<>();
-                hashMap.put("title", archive.getTitle());
-                hashMap.put("clubName", getClubName(archive.getClubId()));
-                hashMap.put("pictures", archive.getPictureUrls());
-                hashMap.put("contents", archive.getContents());
-                hashMap.put("likeCount", archive.getLike());
-                hashMap.put("time", archive.getCreatedDate());
+                hashMap.put("archiveId", archive.getArchiveId());
+                hashMap.put("clubId", archive.getClubId());
                 archiveList.add(hashMap);
             }
         }
