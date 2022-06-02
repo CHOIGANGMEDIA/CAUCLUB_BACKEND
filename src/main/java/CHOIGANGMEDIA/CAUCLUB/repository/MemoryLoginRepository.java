@@ -8,6 +8,7 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
+import io.netty.handler.codec.base64.Base64Encoder;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
@@ -15,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Base64;
 
 @Repository
 public class MemoryLoginRepository implements LoginRepository{
@@ -66,18 +68,8 @@ public class MemoryLoginRepository implements LoginRepository{
                 // salt 값 가져와서 password를 암호화해서 비교해주기
                 String dataPassword = document.toObject(Member.class).getPassword();
                 String salt = document.toObject(Member.class).getSalt();
-                String hash = password + salt;
-                String hex = null;
-                for(int iteration = 0; iteration<10000; iteration++){
-                    try{
-                        MessageDigest msg = MessageDigest.getInstance("SHA-512");
-                        msg.update(hash.getBytes());
-                        hex = String.format("%64x", new BigInteger(1, msg.digest()));
-                    }catch (NoSuchAlgorithmException e){
-                        e.printStackTrace();
-                    }
-                }
-                return dataPassword.equals(hex);
+                String safePassword = getPassword(password,salt);
+                return safePassword.equals(dataPassword);
             }
         }
         return false;
@@ -88,5 +80,23 @@ public class MemoryLoginRepository implements LoginRepository{
         Firestore dbFirestore = FirestoreClient.getFirestore();
         dbFirestore.collection("Member").document(id).delete();
         return true;
+    }
+
+    public static String getPassword(String password, String salt) {
+        String encryptPassword = "";
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-512");
+            digest.reset();
+            digest.update(salt.getBytes());
+            byte[] input = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            for (int i = 0; i < 10000; i++) {
+                digest.reset();
+                input = digest.digest(input);
+            }
+            encryptPassword = Base64.getEncoder().encodeToString(input);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return encryptPassword;
     }
 }
