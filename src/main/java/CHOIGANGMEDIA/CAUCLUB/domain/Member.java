@@ -9,7 +9,6 @@ import java.util.ArrayList;
 @Setter
 
 public class Member {
-
     private String id;
     private String password;
     private String name;
@@ -18,5 +17,5 @@ public class Member {
     private ArrayList<Integer> joinedClub;
     private ArrayList<Integer> managingClub;
     private ArrayList<String> keyword;
-
+    private String salt;
 }
