@@ -11,10 +11,13 @@ import com.google.firebase.cloud.FirestoreClient;
 import io.netty.handler.codec.base64.Base64Encoder;
 import org.springframework.stereotype.Repository;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.KeySpec;
 import java.util.List;
 import java.util.Base64;
 
@@ -85,15 +88,11 @@ public class MemoryLoginRepository implements LoginRepository{
     public static String getPassword(String password, String salt) {
         String encryptPassword = "";
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-512");
-            digest.reset();
-            digest.update(salt.getBytes());
-            byte[] input = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-            for (int i = 0; i < 10000; i++) {
-                digest.reset();
-                input = digest.digest(input);
-            }
-            encryptPassword = Base64.getEncoder().encodeToString(input);
+            byte[] saltBytes = Base64.getDecoder().decode(salt);
+            KeySpec spec = new PBEKeySpec(password.toCharArray(),saltBytes , 10000, 512);
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+            byte[] hash = factory.generateSecret(spec).getEncoded();
+            encryptPassword = Base64.getEncoder().encodeToString(hash);
         } catch(Exception e) {
             e.printStackTrace();
         }
