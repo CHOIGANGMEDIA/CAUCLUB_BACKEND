@@ -77,6 +77,8 @@ public class LoginController {
         password = password.substring(1,password.length()-1);
         String email = jsonObject.get("email").toString();
         email = email.substring(1,email.length()-1);
+        String salt = jsonObject.get("salt").toString();
+        salt = salt.substring(1,salt.length()-1);
         member.setDepartment(department);
         member.setEmail(email);
         member.setId(id);
@@ -85,6 +87,7 @@ public class LoginController {
         member.setKeyword(keywordList);
         member.setJoinedClub(joinedClubList);
         member.setManagingClub(managingClubList);
+        member.setSalt(salt);
         loginService.registerNewMember(member);
         System.out.println("회원가입이 성공적으로 완료되었습니다."); // 테스트를 위한 회원가입 성공 문구 출력
         return true;
@@ -92,13 +95,7 @@ public class LoginController {
 
     @ResponseBody
     @RequestMapping(value="/member/login", method= RequestMethod.POST)
-    @JsonProperty("id")
-
-    /**
-     * 데이터 넘어오는 양식 예시
-     * {"id":"dlrlxo999","password":"@@aa0332601"}
-     */
-
+//    @JsonProperty("id")
     public boolean loginClub(@RequestBody String memberInformation, HttpServletRequest request) throws Exception{
         String[] information = memberInformation.split(",");
         String id = information[0];
