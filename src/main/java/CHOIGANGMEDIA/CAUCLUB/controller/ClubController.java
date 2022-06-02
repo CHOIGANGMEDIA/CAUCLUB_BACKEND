@@ -97,9 +97,10 @@ public class ClubController {
     @ResponseBody
     @RequestMapping(value = "/{memberId}/{clubId}", method = RequestMethod.PATCH)
     public boolean modifyClubInformation(@PathVariable String memberId, @PathVariable int clubId, @RequestParam String name,
-                                         @RequestParam String introduction, @RequestParam int type, @RequestParam String leaderId, @RequestParam String picture,
+                                         @RequestParam String introduction, @RequestParam String leaderId, @RequestParam String picture,
                                          @RequestParam ArrayList<String> keyword) throws Exception{
-        clubService.modifyClubInformation(picture, leaderId, name, type, introduction, clubId, keyword);
+        clubService.modifyClubInformation(picture, leaderId, name, introduction, clubId, keyword);
+        clubService.changeLeader(memberId, clubId, leaderId);
         System.out.println("동아리 정보가 수정되었습니다.");
         return true;
     }
@@ -114,7 +115,9 @@ public class ClubController {
     @ResponseBody
     @RequestMapping(value = "/{memberId}/joinedClub", method = RequestMethod.GET)
     public List<Integer> viewJoinedClub(@PathVariable String memberId) throws Exception {
-        return clubService.viewJoinedClub(memberId);
+        List<Integer> managing = clubService.viewManagingClub(memberId);
+        managing.addAll(clubService.viewJoinedClub(memberId));
+        return managing;
     }
 
     @ResponseBody
