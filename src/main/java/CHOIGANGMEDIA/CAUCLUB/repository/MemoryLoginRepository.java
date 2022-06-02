@@ -10,6 +10,10 @@ import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Repository
@@ -59,9 +63,21 @@ public class MemoryLoginRepository implements LoginRepository{
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         for(QueryDocumentSnapshot document : documents) {
             if(document.toObject(Member.class).getId().equals(id)){
-                if(document.toObject(Member.class).getPassword().equals(password)){
-                    return true;
+                // salt 값 가져와서 password를 암호화해서 비교해주기
+                String dataPassword = document.toObject(Member.class).getPassword();
+                String salt = document.toObject(Member.class).getSalt();
+                String hash = password + salt;
+                String hex = null;
+                for(int iteration = 0; iteration<10000; iteration++){
+                    try{
+                        MessageDigest msg = MessageDigest.getInstance("SHA-512");
+                        msg.update(hash.getBytes());
+                        hex = String.format("%64x", new BigInteger(1, msg.digest()));
+                    }catch (NoSuchAlgorithmException e){
+                        e.printStackTrace();
+                    }
                 }
+                return dataPassword.equals(hex);
             }
         }
         return false;

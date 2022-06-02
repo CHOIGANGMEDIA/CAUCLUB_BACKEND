@@ -95,13 +95,7 @@ public class LoginController {
 
     @ResponseBody
     @RequestMapping(value="/member/login", method= RequestMethod.POST)
-    @JsonProperty("id")
-
-    /**
-     * 데이터 넘어오는 양식 예시
-     * {"id":"dlrlxo999","password":"@@aa0332601"}
-     */
-
+//    @JsonProperty("id")
     public boolean loginClub(@RequestBody String memberInformation, HttpServletRequest request) throws Exception{
         String[] information = memberInformation.split(",");
         String id = information[0];
