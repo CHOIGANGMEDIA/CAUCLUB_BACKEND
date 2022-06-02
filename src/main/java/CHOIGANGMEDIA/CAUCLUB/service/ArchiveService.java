@@ -25,8 +25,8 @@ public class ArchiveService {
         return archiveRepository.deleteArchive(archiveId);
     }
 
-    public boolean modifyArchive(String title, ArrayList<String> pictureUrls, int archiveId, String contents) throws Exception{
-        return archiveRepository.modifyArchive(title,pictureUrls,archiveId,contents);
+    public boolean modifyArchive(String title, ArrayList<String> pictureUrls, int archiveId, String contents, int isMutual) throws Exception{
+        return archiveRepository.modifyArchive(title,pictureUrls,archiveId,contents, isMutual);
     }
 
     public Archive getArchiveObject(int archiveId) throws Exception{

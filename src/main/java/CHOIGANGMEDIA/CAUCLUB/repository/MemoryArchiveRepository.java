@@ -38,7 +38,7 @@ public class MemoryArchiveRepository implements ArchiveRepository{
     }
 
     @Override
-    public Boolean modifyArchive(String title, ArrayList<String> pictureUrls, int archiveId, String contents) throws Exception {
+    public Boolean modifyArchive(String title, ArrayList<String> pictureUrls, int archiveId, String contents, int isMutual) throws Exception {
         Date now = new Date();
         String modifiedDate = now.toString();
         Firestore firestore = FirestoreClient.getFirestore();
@@ -47,6 +47,7 @@ public class MemoryArchiveRepository implements ArchiveRepository{
         ApiFuture<WriteResult> future1 = documentReference.update("contents",contents);
         ApiFuture<WriteResult> future2 = documentReference.update("modifiedDate", modifiedDate);
         ApiFuture<WriteResult> future3 = documentReference.update("pictureUrls", pictureUrls);
+        ApiFuture<WriteResult> future4 = documentReference.update("isMutual", isMutual);
         return true;
     }
 
