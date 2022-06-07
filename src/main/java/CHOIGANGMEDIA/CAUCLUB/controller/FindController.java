@@ -68,6 +68,7 @@ public class FindController {
         password = password.substring(1,password.length()-1);
         String salt = jsonObject.get("salt").toString();
         salt = salt.substring(1,salt.length()-1);
+        session.invalidate();
         findService.resetPasswordService(memberId, password, salt);
         System.out.println("성공적으로 비밀번호가 재설정되었습니다!");
         return true;
@@ -80,11 +81,17 @@ public class FindController {
     @ResponseBody
     @RequestMapping(value="/member/changePassword", method = RequestMethod.POST)
     public boolean changePassword(@RequestBody String information, HttpServletRequest request) throws Exception{
-        String password = information.substring(13,information.length()-2);
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("email");
+        JsonParser jsonParser = new JsonParser();
+        Object obj = jsonParser.parse(information);
+        JsonObject jsonObject = (JsonObject) obj;
+        String password = jsonObject.get("password").toString();
+        password = password.substring(1,password.length()-1);
+        String salt = jsonObject.get("salt").toString();
+        salt = salt.substring(1,salt.length()-1);
         session.invalidate();
-        findService.resetPasswordByEmailService(email,password);
+        findService.resetPasswordByEmailService(email,password,salt);
         System.out.println("성공적으로 비밀번호가 재설정되었습니다!");
         return true;
     }

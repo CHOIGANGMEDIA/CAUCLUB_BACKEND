@@ -55,11 +55,12 @@ public class MemoryFindRepository implements FindRepository{
     }
 
     @Override
-    public Boolean resetPasswordByEmail(String email, String password) throws Exception {
+    public Boolean resetPasswordByEmail(String email, String password, String salt) throws Exception {
         String documentName = getIdByEmail(email);
         Firestore firestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = firestore.collection("Member").document(documentName);
         ApiFuture<WriteResult> future = documentReference.update("password",password);
+        ApiFuture<WriteResult> future1 = documentReference.update("salt",salt);
         return true;
     }
 }
