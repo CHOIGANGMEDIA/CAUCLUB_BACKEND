@@ -33,10 +33,11 @@ public class MemoryFindRepository implements FindRepository{
     }
 
     @Override
-    public Boolean resetPassword(String id, String password) throws Exception {
+    public Boolean resetPassword(String id, String password, String salt) throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = firestore.collection("Member").document(id);
         ApiFuture<WriteResult> future = documentReference.update("password",password);
+        ApiFuture<WriteResult> future1 = documentReference.update("salt",salt);
         return true;
     }
 

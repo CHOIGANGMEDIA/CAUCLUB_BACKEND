@@ -21,8 +21,8 @@ public class FindService {
         }
     }
 
-    public boolean resetPasswordService(String id, String password) throws Exception{
-        if(findRepository.resetPassword(id,password)){
+    public boolean resetPasswordService(String id, String password,String salt) throws Exception{
+        if(findRepository.resetPassword(id,password,salt)){
             return true;
         }
         else{

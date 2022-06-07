@@ -4,6 +4,8 @@ import CHOIGANGMEDIA.CAUCLUB.domain.Member;
 import CHOIGANGMEDIA.CAUCLUB.service.AuthenticationService;
 import CHOIGANGMEDIA.CAUCLUB.service.FindService;
 import CHOIGANGMEDIA.CAUCLUB.service.JavaMainSenderService;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,11 +59,16 @@ public class FindController {
     @ResponseBody
     @RequestMapping(value="/member/resetPassword", method = RequestMethod.POST)
     public boolean resetPassword(@RequestBody String information, HttpServletRequest request) throws Exception{
-        String password = information.substring(13,information.length()-2);
         HttpSession session = request.getSession();
         String memberId = (String) session.getAttribute("member");
-        session.invalidate();
-        findService.resetPasswordService(memberId, password);
+        JsonParser jsonParser = new JsonParser();
+        Object obj = jsonParser.parse(information);
+        JsonObject jsonObject = (JsonObject) obj;
+        String password = jsonObject.get("password").toString();
+        password = password.substring(1,password.length()-1);
+        String salt = jsonObject.get("salt").toString();
+        salt = salt.substring(1,salt.length()-1);
+        findService.resetPasswordService(memberId, password, salt);
         System.out.println("성공적으로 비밀번호가 재설정되었습니다!");
         return true;
     }
