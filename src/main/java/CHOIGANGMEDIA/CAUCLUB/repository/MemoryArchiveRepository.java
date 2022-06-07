@@ -22,6 +22,7 @@ public class MemoryArchiveRepository implements ArchiveRepository{
         DocumentSnapshot document = future.get();
         int clubId = Objects.requireNonNull(document.toObject(Archive.class)).getClubId();
         int isMutual = Objects.requireNonNull(document.toObject(Archive.class)).getIsMutual();
+        int likeCount = Objects.requireNonNull(document.toObject(Archive.class)).getLike();
         DocumentReference documentReference = dbFirestore.collection("Club").document(String.valueOf(clubId));
         ApiFuture<DocumentSnapshot> future1 = documentReference.get();
         DocumentSnapshot document1 = future1.get();
@@ -32,6 +33,7 @@ public class MemoryArchiveRepository implements ArchiveRepository{
         else{
             clubScore -= 15;
         }
+        clubScore -= likeCount;
         ApiFuture<WriteResult> future2 = documentReference.update("score",clubScore);
         dbFirestore.collection("Archive").document(String.valueOf(archiveId)).delete();
         return true;
