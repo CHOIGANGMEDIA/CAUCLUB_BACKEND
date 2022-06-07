@@ -286,4 +286,20 @@ public class MemoryClubRepository implements ClubRepository{
             }
         }
     }
+
+    @Override
+    public boolean validLeader(String memberId, int clubId) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firestore.collection("Club").document(String.valueOf(clubId));
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<String> memberList = new ArrayList<>();
+        memberList = Objects.requireNonNull(document.toObject(Club.class)).getMembers();
+        if(memberList.contains(memberId)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

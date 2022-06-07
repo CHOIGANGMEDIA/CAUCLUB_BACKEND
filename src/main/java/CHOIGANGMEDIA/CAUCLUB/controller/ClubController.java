@@ -158,8 +158,14 @@ public class ClubController {
     @ResponseBody
     @RequestMapping(value = "/{memberId}/{clubId}/changeLeaderId", method = RequestMethod.PATCH)
     public boolean changeLeaderId(@PathVariable("memberId") String memberId, @PathVariable("clubId") int clubId, @RequestParam String newLeaderId) throws Exception{
-        System.out.println("동아리 회장이 변경되었습니다.");
-        return clubService.changeLeader(memberId, clubId, newLeaderId);
+        if(clubService.validLeaderCheck(memberId, clubId)){
+            System.out.println("동아리 회장이 변경되었습니다.");
+            return clubService.changeLeader(memberId, clubId, newLeaderId);
+        }
+        else{
+            System.out.println("해당 아이디가 동아리 부원 리스트에 없습니다.");
+            return false;
+        }
     }
 
     @ResponseBody
