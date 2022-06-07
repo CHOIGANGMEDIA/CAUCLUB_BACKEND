@@ -71,4 +71,8 @@ public class ClubService {
     public int getInformationOfEnter(String memberId, int clubId) throws Exception{
         return clubRepository.getInformationOfEnter(memberId, clubId);
     }
+
+    public boolean validLeaderCheck(String memberId, int clubId) throws Exception{
+        return clubRepository.validLeader(memberId, clubId);
+    }
 }
