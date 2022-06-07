@@ -124,6 +124,7 @@ public class MemoryArchiveRepository implements ArchiveRepository{
                 archiveList.add(hashMap);
             }
         }
+        Collections.reverse(archiveList);
         return archiveList;
     }
 
