@@ -72,6 +72,7 @@ public class ArchiveController {
         String isMutual = jsonObject.get("isMutual").toString();
         int tempIsMutual = Integer.parseInt(isMutual);
 
+
         String pictureUrls = jsonObject.get("pictures").toString();
         String[] info = pictureUrls.substring(1, pictureUrls.length()-1).split(",");
         for(int i=0;i<info.length;i++){
