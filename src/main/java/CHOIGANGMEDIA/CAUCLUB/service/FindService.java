@@ -34,8 +34,8 @@ public class FindService {
         return findRepository.getIdByEmail(email);
     }
 
-    public boolean resetPasswordByEmailService(String email, String password) throws Exception{
-        if(findRepository.resetPasswordByEmail(email,password)){
+    public boolean resetPasswordByEmailService(String email, String password, String salt) throws Exception{
+        if(findRepository.resetPasswordByEmail(email,password,salt)){
             return true;
         }
         else{
