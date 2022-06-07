@@ -80,6 +80,7 @@ public class MemoryPostRepository implements PostRepository{
                 hashMap.put("postId", post.getPostId());
                 hashMap.put("title", post.getTitle());
                 hashMap.put("clubName", getClubName(post.getClubId()));
+                hashMap.put("clubId", post.getClubId());
                 hashMap.put("contents", post.getContents());
                 hashMap.put("time", post.getCreatedDate());
                 postList.add(hashMap);

@@ -166,4 +166,5 @@ public class ClubController {
     public int getValidInformationOfEnter(@PathVariable("memberId") String memberId, @PathVariable("clubId") int clubId) throws Exception{
         return clubService.getInformationOfEnter(memberId, clubId);
     }
+
 }

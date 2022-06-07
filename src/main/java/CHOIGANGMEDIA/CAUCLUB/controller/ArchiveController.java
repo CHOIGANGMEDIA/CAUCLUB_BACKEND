@@ -72,7 +72,7 @@ public class ArchiveController {
         String isMutual = jsonObject.get("isMutual").toString();
         int tempIsMutual = Integer.parseInt(isMutual);
 
-        String pictureUrls = jsonObject.get("pictureUrls").toString();
+        String pictureUrls = jsonObject.get("pictures").toString();
         String[] info = pictureUrls.substring(1, pictureUrls.length()-1).split(",");
         for(int i=0;i<info.length;i++){
             String tempUrls = info[i].substring(1,info[i].length()-1);
@@ -119,10 +119,9 @@ public class ArchiveController {
         String title = jsonObject.get("title").toString();
         title = title.substring(1,title.length()-1);
         String isMutual = jsonObject.get("isMutual").toString();
-        isMutual = isMutual.substring(1,isMutual.length()-1);
         int tempIsMutual = Integer.parseInt(isMutual);
 
-        String pictureUrls = jsonObject.get("pictureUrls").toString();
+        String pictureUrls = jsonObject.get("pictures").toString();
         Object obj1 = jsonParser.parse(pictureUrls);
         JsonObject jsonObject1 = (JsonObject) obj1;
         String[] info = pictureUrls.split(",");
@@ -138,7 +137,7 @@ public class ArchiveController {
 
     @ResponseBody
     @RequestMapping(value = "/archive/{archiveId}", method = RequestMethod.GET)
-    public HashMap<String, Object> viewDetailArchive(@PathVariable("archiveId") int archiveId) throws Exception{
+    public HashMap<String, Object> viewDetailArchive(@PathVariable("archiveId") int archiveId, HttpServletRequest request) throws Exception{
         HashMap<String, Object> map = new HashMap<>();
         Archive archive = archiveService.getArchiveObject(archiveId);
         String clubName = archiveService.getClubName(archive.getClubId());
@@ -154,6 +153,9 @@ public class ArchiveController {
         map.put("like", archive.getLike());
         map.put("clubName", clubName);
         map.put("clubId", archive.getClubId());
+        map.put("isMutual", archive.getIsMutual());
+        HttpSession session = request.getSession();
+        map.put("userLiked", archive.getLikeMember().contains((String) session.getAttribute("member")));
         return map;
     }
 
