@@ -125,16 +125,17 @@ public class ClubController {
     public List<Integer> recommendClub(@PathVariable("memberId") String memberId) throws Exception{
         List<Club> clubList = new ArrayList<>();
         List<Integer> clubIdList = new ArrayList<>();
-        if (clubService.showRecommendList(memberId).size() < 5){
-            for(int i=0;i<clubService.showRecommendList(memberId).size();i++){
-                clubIdList.add(clubService.showRecommendList(memberId).get(i).getClubId());
+        clubList = clubService.showRecommendList(memberId);
+        int clubIndex = 0;
+        while(clubIdList.size()<5){
+            if(clubIdList.contains(clubList.get(clubIndex).getClubId())){
+                clubIndex += 1;
             }
-            return clubIdList;
-        }
-        else{
-            for(int i=0;i<5;i++){
-                clubList.add(clubService.showRecommendList(memberId).get(i));
-                clubIdList.add(clubList.get(i).getClubId());
+            else{
+                clubIdList.add(clubList.get(clubIndex).getClubId());
+            }
+            if(clubIndex==clubList.size()-1){
+                break;
             }
         }
         return clubIdList;
