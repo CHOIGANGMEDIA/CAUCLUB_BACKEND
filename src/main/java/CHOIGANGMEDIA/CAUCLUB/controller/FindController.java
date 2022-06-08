@@ -82,6 +82,7 @@ public class FindController {
     @RequestMapping(value="/member/changePassword", method = RequestMethod.POST)
     public boolean changePassword(@RequestBody String information, HttpServletRequest request) throws Exception{
         HttpSession session = request.getSession();
+        System.out.println(session);
         String email = (String) session.getAttribute("email");
         JsonParser jsonParser = new JsonParser();
         Object obj = jsonParser.parse(information);
@@ -90,6 +91,7 @@ public class FindController {
         password = password.substring(1,password.length()-1);
         String salt = jsonObject.get("salt").toString();
         salt = salt.substring(1,salt.length()-1);
+        System.out.println(email);
         session.invalidate();
         findService.resetPasswordByEmailService(email,password,salt);
         System.out.println("성공적으로 비밀번호가 재설정되었습니다!");

@@ -97,10 +97,9 @@ public class ClubController {
     @ResponseBody
     @RequestMapping(value = "/{memberId}/{clubId}", method = RequestMethod.PATCH)
     public boolean modifyClubInformation(@PathVariable String memberId, @PathVariable int clubId, @RequestParam String name,
-                                         @RequestParam String introduction, @RequestParam String leaderId, @RequestParam String picture,
+                                         @RequestParam String introduction, @RequestParam String picture,
                                          @RequestParam ArrayList<String> keyword) throws Exception{
-        clubService.modifyClubInformation(picture, leaderId, name, introduction, clubId, keyword);
-        clubService.changeLeader(memberId, clubId, leaderId);
+        clubService.modifyClubInformation(picture, name, introduction, clubId, keyword);
         System.out.println("동아리 정보가 수정되었습니다.");
         return true;
     }
@@ -138,6 +137,7 @@ public class ClubController {
                 break;
             }
         }
+        System.out.println(clubIdList);
         return clubIdList;
     }
 

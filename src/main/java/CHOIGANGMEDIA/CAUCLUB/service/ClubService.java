@@ -44,8 +44,8 @@ public class ClubService {
         return clubRepository.viewDepartmentClubList(memberId,department);
     }
 
-    public boolean modifyClubInformation(String picture, String leaderId, String name, String introduction, int clubId, ArrayList<String> keyword) throws Exception{
-        return clubRepository.modifyClubInformation(picture, leaderId, name, introduction, clubId, keyword);
+    public boolean modifyClubInformation(String picture, String name, String introduction, int clubId, ArrayList<String> keyword) throws Exception{
+        return clubRepository.modifyClubInformation(picture, name, introduction, clubId, keyword);
     }
 
     public List<Club> showRecommendList(String memberId) throws Exception{

@@ -2,6 +2,7 @@ package CHOIGANGMEDIA.CAUCLUB.controller;
 
 import CHOIGANGMEDIA.CAUCLUB.domain.Archive;
 import CHOIGANGMEDIA.CAUCLUB.service.ArchiveService;
+import com.google.firebase.database.utilities.Pair;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -175,8 +176,8 @@ public class ArchiveController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/{memberId}/{clubId}/archive", method = RequestMethod.GET)
-    public List<Archive> viewMyClubArchiveList(@PathVariable("clubId") int clubId) throws Exception{
+    @RequestMapping(value = "/club/{clubId}/archive", method = RequestMethod.GET)
+    public List<Pair<Integer, String>> viewMyClubArchiveList(@PathVariable("clubId") int clubId) throws Exception{
         return archiveService.viewMyClubArchiveList(clubId);
     }
 }

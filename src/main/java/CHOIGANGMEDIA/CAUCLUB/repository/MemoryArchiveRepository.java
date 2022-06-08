@@ -7,6 +7,7 @@ import CHOIGANGMEDIA.CAUCLUB.domain.Post;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.database.utilities.Pair;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -129,16 +130,16 @@ public class MemoryArchiveRepository implements ArchiveRepository{
     }
 
     @Override
-    public List<Archive> viewMyClubArchive(int clubId) throws Exception {
+    public List<Pair<Integer, String>> viewMyClubArchive(int clubId) throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
         Query query = firestore.collection("Archive")
                 .whereEqualTo("clubId", clubId)
                 .orderBy("createdDate", Query.Direction.ASCENDING);
         QuerySnapshot queryDocumentSnapshots = query.get().get();
-        List<Archive> archiveList = new ArrayList<>();
+        List<Pair<Integer, String>> archiveList = new ArrayList<>();
         if(queryDocumentSnapshots.size() != 0){
             for(Archive archive : queryDocumentSnapshots.toObjects(Archive.class)){
-                archiveList.add(archive);
+                archiveList.add(new Pair<>(archive.getArchiveId(), archive.getPictureUrls().get(0)));
             }
         }
         return archiveList;

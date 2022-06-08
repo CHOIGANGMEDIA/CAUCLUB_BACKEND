@@ -2,6 +2,7 @@ package CHOIGANGMEDIA.CAUCLUB.service;
 
 import CHOIGANGMEDIA.CAUCLUB.domain.Archive;
 import CHOIGANGMEDIA.CAUCLUB.repository.ArchiveRepository;
+import com.google.firebase.database.utilities.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class ArchiveService {
         return archiveRepository.viewAllArchive();
     }
 
-    public List<Archive> viewMyClubArchiveList(int clubId) throws Exception{
+    public List<Pair<Integer, String>> viewMyClubArchiveList(int clubId) throws Exception{
         return archiveRepository.viewMyClubArchive(clubId);
     }
 

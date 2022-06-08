@@ -1,6 +1,7 @@
 package CHOIGANGMEDIA.CAUCLUB.repository;
 
 import CHOIGANGMEDIA.CAUCLUB.domain.Archive;
+import com.google.firebase.database.utilities.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ public interface ArchiveRepository {
     String getClubName(int clubId) throws Exception;
     Boolean likeArchive(int archiveId, String memberId) throws Exception;
     List<HashMap<String, Object>> viewAllArchive() throws Exception;
-    List<Archive> viewMyClubArchive(int clubId) throws Exception;
+    List<Pair<Integer, String>> viewMyClubArchive(int clubId) throws Exception;
     int setArchivePk() throws Exception;
     void plusArchivePk() throws Exception;
     void plusScoreByArchive(int clubId, int isMutual) throws Exception;
