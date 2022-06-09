@@ -158,7 +158,7 @@ public class ClubController {
     @ResponseBody
     @RequestMapping(value = "/{memberId}/{clubId}/changeLeaderId", method = RequestMethod.PATCH)
     public boolean changeLeaderId(@PathVariable("memberId") String memberId, @PathVariable("clubId") int clubId, @RequestParam String newLeaderId) throws Exception{
-        if(clubService.validLeaderCheck(memberId, clubId)){
+        if(clubService.validLeaderCheck(newLeaderId, clubId)){
             System.out.println("동아리 회장이 변경되었습니다.");
             return clubService.changeLeader(memberId, clubId, newLeaderId);
         }

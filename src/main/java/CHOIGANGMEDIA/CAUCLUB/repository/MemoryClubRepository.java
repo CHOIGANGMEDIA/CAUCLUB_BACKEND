@@ -295,6 +295,7 @@ public class MemoryClubRepository implements ClubRepository{
         DocumentSnapshot document = future.get();
         ArrayList<String> memberList = new ArrayList<>();
         memberList = Objects.requireNonNull(document.toObject(Club.class)).getMembers();
+        System.out.println(memberList);
         if(memberList.contains(memberId)){
             return true;
         }
