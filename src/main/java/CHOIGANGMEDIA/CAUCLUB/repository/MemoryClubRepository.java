@@ -42,8 +42,16 @@ public class MemoryClubRepository implements ClubRepository{
     }
 
     @Override
-    public Boolean deleteClub(int clubId) throws Exception {
+    public Boolean deleteClub(String memberId, int clubId) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = dbFirestore.collection("Member").document(memberId);
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        ArrayList<Integer> managingClubList = new ArrayList<>();
+        managingClubList = Objects.requireNonNull(document.toObject(Member.class)).getManagingClub();
+        System.out.println(managingClubList);
+        managingClubList.remove(Integer.valueOf(clubId));
+        ApiFuture<WriteResult> future1 = documentReference.update("managingClub",managingClubList);
         dbFirestore.collection("Club").document(String.valueOf(clubId)).delete();
         return true;
     }

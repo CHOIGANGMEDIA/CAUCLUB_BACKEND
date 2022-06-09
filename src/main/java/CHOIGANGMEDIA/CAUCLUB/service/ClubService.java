@@ -28,8 +28,8 @@ public class ClubService {
         return clubRepository.registerNewClub(club, memberId);
     }
 
-    public Boolean deleteClub(int clubId) throws Exception{
-        return clubRepository.deleteClub(clubId);
+    public Boolean deleteClub(String memberId, int clubId) throws Exception{
+        return clubRepository.deleteClub(memberId, clubId);
     }
 
     public Club getClubObject(int clubId) throws Exception{
